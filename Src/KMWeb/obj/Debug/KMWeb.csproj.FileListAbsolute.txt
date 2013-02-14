@@ -1,0 +1,14 @@
+E:\KMWeb\KMWeb\bin\KMWeb.dll
+E:\KMWeb\KMWeb\bin\KMWeb.pdb
+E:\KMWeb\KMWeb\obj\Debug\ResolveAssemblyReference.cache
+E:\KMWeb\KMWeb\obj\Debug\KMWeb.dll
+E:\KMWeb\KMWeb\obj\Debug\KMWeb.pdb
+E:\GitHub\src\KMWeb\bin\KMWeb.dll
+E:\GitHub\src\KMWeb\bin\KMWeb.pdb
+E:\GitHub\src\KMWeb\obj\Debug\ResolveAssemblyReference.cache
+E:\GitHub\src\KMWeb\obj\Debug\KMWeb.dll
+E:\GitHub\src\KMWeb\obj\Debug\KMWeb.pdb
+E:\GitHub\src\KMWeb\bin\ICSharpCode.SharpZipLib.dll
+E:\GitHub\src\KMWeb\bin\Lucene.Net.dll
+E:\GitHub\src\KMWeb\bin\Lucene.Net.pdb
+E:\GitHub\src\KMWeb\bin\Lucene.Net.xml
