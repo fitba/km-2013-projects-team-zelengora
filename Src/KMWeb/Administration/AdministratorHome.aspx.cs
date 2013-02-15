@@ -7,6 +7,7 @@ using System.Web.UI.WebControls;
 using System.Configuration;
 using System.Data.SqlClient;
 using System.Data;
+using System.Windows.Forms;
 
 
 namespace KMWeb.Administration
@@ -17,28 +18,39 @@ namespace KMWeb.Administration
         SqlConnection connection = new SqlConnection(connStr);
         protected void Page_Load(object sender, EventArgs e)
         {
+            //get
+            string username = (string)Session["korisnickoIme"];
+
             string strSel;
             string UserID = Request.QueryString["UserID"];
+            if (username != null)
+            {
+                DataSet ds = new DataSet();
 
-            DataSet ds = new DataSet();
-         
-            connection.Open();
+                connection.Open();
 
-            SqlCommand cmd = new SqlCommand
-            ("SELECT Clanci.Id AS IdOriginalClanka, Clanci.Naslov AS OriginalNaslov, Clanci.Sadrzaj AS OriginalSadrzaj, Clanci.DatumKreiranja AS DatumKreiranjaClanka, "
-              + "PrijeglogRevizije.Id AS IdPrijedlogaRevizije, PrijeglogRevizije.Naslov AS NaslovPrijedloga, PrijeglogRevizije.Sadrzaj AS SadrzajPrijedloga, "
-              + "PrijeglogRevizije.DatumPrijedloga, PrijeglogRevizije.IdKorisnik, Korisnici.Ime AS ImePredlagaca, Korisnici.Prezime AS PrezimePredlagaca, PrijeglogRevizije.Status,"
-              + "Clanci.IdKorisnik AS AutorClanka "
-              + "FROM Korisnici INNER JOIN "
-              + "PrijeglogRevizije ON Korisnici.Id = PrijeglogRevizije.IdKorisnik INNER JOIN "
-              + "Clanci ON PrijeglogRevizije.IdClanak = Clanci.Id "
-              + "WHERE (PrijeglogRevizije.Status = 1) AND (Clanci.IdKorisnik =" + UserID + ")", connection); //SAMO za jednog korisnika
+                SqlCommand cmd = new SqlCommand
+                ("SELECT Clanci.Id AS IdOriginalClanka, Clanci.Naslov AS OriginalNaslov, Clanci.Sadrzaj AS OriginalSadrzaj, Clanci.DatumKreiranja AS DatumKreiranjaClanka, "
+                  + "PrijeglogRevizije.Id AS IdPrijedlogaRevizije, PrijeglogRevizije.Naslov AS NaslovPrijedloga, PrijeglogRevizije.Sadrzaj AS SadrzajPrijedloga, "
+                  + "PrijeglogRevizije.DatumPrijedloga, PrijeglogRevizije.IdKorisnik, Korisnici.Ime AS ImePredlagaca, Korisnici.Prezime AS PrezimePredlagaca, PrijeglogRevizije.Status,"
+                  + "Clanci.IdKorisnik AS AutorClanka "
+                  + "FROM Korisnici INNER JOIN "
+                  + "PrijeglogRevizije ON Korisnici.Id = PrijeglogRevizije.IdKorisnik INNER JOIN "
+                  + "Clanci ON PrijeglogRevizije.IdClanak = Clanci.Id "
+                  + "WHERE (PrijeglogRevizije.Status = 1) AND (Clanci.IdKorisnik =" + UserID + ")", connection); //SAMO za jednog korisnika
 
-            SqlDataAdapter da = new SqlDataAdapter(cmd);
+                SqlDataAdapter da = new SqlDataAdapter(cmd);
 
-            da.Fill(ds);
-            gvPrijedloziRevizije.DataSource = ds;
-            gvPrijedloziRevizije.DataBind();
+                da.Fill(ds);
+                gvPrijedloziRevizije.DataSource = ds;
+                gvPrijedloziRevizije.DataBind();
+            }
+            else
+            {
+                MessageBox.Show("Logirajte se !");
+                Response.Redirect("~/Account/Login.aspx");
+            }
+
         }
 
         protected void gvPrijedloziRevizije_SelectedIndexChanged(object sender, EventArgs e)

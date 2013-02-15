@@ -58,7 +58,7 @@ indexWriter.Close();
         private static void WriteDocument()
         {
 
-            Directory directory = FSDirectory.Open("E:\\GitHub\\LuceneIndex1");
+            Directory directory = FSDirectory.Open("E:\\GitHub\\LuceneIndex");
             Analyzer analyzer = new StandardAnalyzer(Lucene.Net.Util.Version.LUCENE_30);
             IndexWriter writer = new IndexWriter(directory, analyzer,IndexWriter.MaxFieldLength.UNLIMITED);
 
@@ -71,30 +71,25 @@ indexWriter.Close();
 
             Document doc = new Document();
             
-            //doc.Add(new Field("postBody", text, Field.Store.YES, Field.Index.TOKENIZED));
-            
+            //doc.Add(new Field("id", "1",Field.Store.YES,Field.Index.NOT_ANALYZED ));
 
-           // var doc = new Document();
+            doc.Add(new Field("postBody", "brazil", Field.Store.YES,Field.Index.ANALYZED));
+            doc.Add(new Field("population", "70.000", Field.Store.YES, Field.Index.ANALYZED));
 
-            //doc.Add(new Field("id", "1", Field.Store.YES, Field.Index.NO));
+            //doc.Add(new Field("id", "2", Field.Store.YES, Field.Index.NOT_ANALYZED));
 
-           // doc.Add(new Field("postBody", "Lorem ipsum", Field.Store.YES,
-             //                  Field.Index.ANALYZED));
+            doc.Add(new Field("postBody", "argentina", Field.Store.YES, Field.Index.ANALYZED));
+            doc.Add(new Field("population", "50.000", Field.Store.YES, Field.Index.ANALYZED));
 
-            doc.Add(new Field("id", "1", Field.Store.YES, Field.Index.NO));
 
-            doc.Add(new Field("postBody", "brazil", Field.Store.YES,
-                               Field.Index.ANALYZED));
+            //doc.Add(new Field("id", "3", Field.Store.YES, Field.Index.NOT_ANALYZED));
+            doc.Add(new Field("postBody", "bih", Field.Store.YES, Field.Index.ANALYZED));
+            doc.Add(new Field("population", "4.000", Field.Store.YES, Field.Index.ANALYZED));
 
-            doc.Add(new Field("id", "2", Field.Store.YES, Field.Index.NO));
 
-            doc.Add(new Field("postBody", "argentina", Field.Store.YES,
-                               Field.Index.ANALYZED));
-
-            doc.Add(new Field("id", "3", Field.Store.YES, Field.Index.NO));
-
-            doc.Add(new Field("postBody", "fox", Field.Store.YES,
-                               Field.Index.ANALYZED));
+           // doc.Add(new Field("id", "4", Field.Store.YES, Field.Index.NOT_ANALYZED));
+            doc.Add(new Field("postBody", "bihac", Field.Store.YES, Field.Index.ANALYZED));
+            doc.Add(new Field("population", "1.000", Field.Store.YES, Field.Index.ANALYZED));
 
             writer.AddDocument(doc);
 
@@ -113,7 +108,7 @@ indexWriter.Close();
                 HyperLinkWEBP.NavigateUrl = "CategoryView.aspx?CategoryId=2";
                 HyperLinkStatistika.NavigateUrl = "CategoryView.aspx?CategoryId=3";
                 HyperLinkNoCat.NavigateUrl = "CategoryView.aspx?CategoryId=4";
-            /* if (!IsPostBack) writeDoc();     */   
+               if (!IsPostBack) WriteDocument();      
         }
 
         protected void LinkButton1_Click(object sender, EventArgs e)

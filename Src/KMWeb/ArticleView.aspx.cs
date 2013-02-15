@@ -265,53 +265,64 @@ namespace KMWeb
         protected void btnVote_Click(object sender, EventArgs e)
         {
             // UNOS OCJENE PITANJA
-            if (txtSelectedType.Text=="1")
+
+            //get
+            string username = (string)Session["korisnickoIme"];
+            if (username != null)
             {
-            
-              try
-              {
-                SqlCommand cmd = new SqlCommand("Insert into PitanjeOcjenaPitanja(IdPitanja,IdOcjene,IdKorisnik) VALUES (@IdPitanja,@IdOcjene,@IdKorisnika)");
-                cmd.CommandType = CommandType.Text;
-                cmd.Connection = connection;
-                cmd.Parameters.AddWithValue("@IdPitanja", Convert.ToInt32(txtSelectedIndex.Text));
-                cmd.Parameters.AddWithValue("@IdOcjene", Convert.ToInt32(DropDownListVote.SelectedValue));
-                cmd.Parameters.AddWithValue("@IdKorisnika", 1);
-                connection.Open();
-                cmd.ExecuteNonQuery();
-
-
-                MessageBox.Show("Pitanje Uspješno ocjenjeno", "Important Message");
-                
-               }
-              catch (Exception ex) { MessageBox.Show("Pitanje Nije Uspješno ocjenjeno! Već ste ocjenili pitanje", "Important Message"); } 
-            }
-
-            // UNOS OCJENE ODGOVORA
-            if (txtSelectedType.Text == "2")
-            {
-
-                try
+                if (txtSelectedType.Text == "1")
                 {
-                    SqlCommand cmd = new SqlCommand("Insert into OdgovoriOcjeneOdgovora(IdOdgovor,IdOcjena,IdKorisnik) VALUES (@IdOdgovor,@IdOcjena,@IdKorisnik)");
-                    cmd.CommandType = CommandType.Text;
-                    cmd.Connection = connection;
-                    cmd.Parameters.AddWithValue("@IdOdgovor", Convert.ToInt32(txtTempOdgovor.Text));
-                    cmd.Parameters.AddWithValue("@IdOcjena", Convert.ToInt32(DropDownListVote.SelectedValue));
-                    cmd.Parameters.AddWithValue("@IdKorisnik", 1);
-                    connection.Open();
-                    cmd.ExecuteNonQuery();
 
-                    MessageBox.Show("Odgovor Uspješno ocjenjen", "Important Message");
-                    txtSelectedIndex.Text = "";
-                    
+                    try
+                    {
+                        SqlCommand cmd = new SqlCommand("Insert into PitanjeOcjenaPitanja(IdPitanja,IdOcjene,IdKorisnik) VALUES (@IdPitanja,@IdOcjene,@IdKorisnika)");
+                        cmd.CommandType = CommandType.Text;
+                        cmd.Connection = connection;
+                        cmd.Parameters.AddWithValue("@IdPitanja", Convert.ToInt32(txtSelectedIndex.Text));
+                        cmd.Parameters.AddWithValue("@IdOcjene", Convert.ToInt32(DropDownListVote.SelectedValue));
+                        cmd.Parameters.AddWithValue("@IdKorisnika", Convert.ToInt32(Session["UserId"]));
+                        connection.Open();
+                        cmd.ExecuteNonQuery();
+
+
+                        MessageBox.Show("Pitanje Uspješno ocjenjeno", "Important Message");
+
+                    }
+                    catch (Exception ex) { MessageBox.Show("Pitanje Nije Uspješno ocjenjeno! Već ste ocjenili pitanje", "Important Message"); }
                 }
-                catch (Exception ex) { MessageBox.Show("Odgovor Nije Uspješno ocjenjeno! Već ste ocjenili članak", "Important Message"); }
-            }
 
-            txtSelectedIndex.Text = "";
-            btnVote.Enabled = false;
-            btnPitanje.Text = "Postavi pitanje" ;
-            DropDownListVote.Enabled = false;
+                // UNOS OCJENE ODGOVORA
+                if (txtSelectedType.Text == "2")
+                {
+
+                    try
+                    {
+                        SqlCommand cmd = new SqlCommand("Insert into OdgovoriOcjeneOdgovora(IdOdgovor,IdOcjena,IdKorisnik) VALUES (@IdOdgovor,@IdOcjena,@IdKorisnik)");
+                        cmd.CommandType = CommandType.Text;
+                        cmd.Connection = connection;
+                        cmd.Parameters.AddWithValue("@IdOdgovor", Convert.ToInt32(txtTempOdgovor.Text));
+                        cmd.Parameters.AddWithValue("@IdOcjena", Convert.ToInt32(DropDownListVote.SelectedValue));
+                        cmd.Parameters.AddWithValue("@IdKorisnik", Convert.ToInt32(Session["UserId"]));
+                        connection.Open();
+                        cmd.ExecuteNonQuery();
+
+                        MessageBox.Show("Odgovor Uspješno ocjenjen", "Important Message");
+                        txtSelectedIndex.Text = "";
+
+                    }
+                    catch (Exception ex) { MessageBox.Show("Odgovor Nije Uspješno ocjenjeno! Već ste ocjenili članak", "Important Message"); }
+                }
+
+                txtSelectedIndex.Text = "";
+                btnVote.Enabled = false;
+                btnPitanje.Text = "Postavi pitanje";
+                DropDownListVote.Enabled = false;
+            }
+            else
+            {
+                MessageBox.Show("Logirajte se !");
+                //Response.Redirect("~/Account/Login.aspx");
+            }
         }
 
         protected void txtNaslov_TextChanged(object sender, EventArgs e)
@@ -324,85 +335,111 @@ namespace KMWeb
 
             //OCJENA CLANKA
             string Article = Request.QueryString["ArticleId"];
-            try
+            //get
+            string username = (string)Session["korisnickoIme"];
+            if (username != null)
             {
-                SqlCommand cmd = new SqlCommand("Insert into ClanakOcjenaClanka(IdClanak,IdOcjena,IdKorisnik) VALUES (@IdClanak,@IdOcjena,@IdKorisnik)");
-                cmd.CommandType = CommandType.Text;
-                cmd.Connection = connection;
-                cmd.Parameters.AddWithValue("@IdClanak", Convert.ToInt32(Article));
-                cmd.Parameters.AddWithValue("@IdOcjena", Convert.ToInt32(DropDownListVoteArticle.SelectedValue));
-                cmd.Parameters.AddWithValue("@IdKorisnik", 1);
-                connection.Open();
-                cmd.ExecuteNonQuery();
-                
-                MessageBox.Show("Članka Uspješno ocjenjen", "Important Message");
-                refreshVotingData();
+
+                try
+                {
+                    SqlCommand cmd = new SqlCommand("Insert into ClanakOcjenaClanka(IdClanak,IdOcjena,IdKorisnik) VALUES (@IdClanak,@IdOcjena,@IdKorisnik)");
+                    cmd.CommandType = CommandType.Text;
+                    cmd.Connection = connection;
+                    cmd.Parameters.AddWithValue("@IdClanak", Convert.ToInt32(Article));
+                    cmd.Parameters.AddWithValue("@IdOcjena", Convert.ToInt32(DropDownListVoteArticle.SelectedValue));
+                    cmd.Parameters.AddWithValue("@IdKorisnik", Convert.ToInt32(Session["UserId"]));
+                    connection.Open();
+                    cmd.ExecuteNonQuery();
+
+                    MessageBox.Show("Članka Uspješno ocjenjen", "Important Message");
+                    refreshVotingData();
+                }
+                catch (Exception ex) { MessageBox.Show("Članka Nije Uspješno ocjenjen! Već ste ocjenili članak", "Important Message"); }
             }
-            catch (Exception ex) { MessageBox.Show("Članka Nije Uspješno ocjenjen! Već ste ocjenili članak", "Important Message"); }
-       
+            else
+            {
+                MessageBox.Show("Logirajte se !");
+                //Response.Redirect("~/Account/Login.aspx");
+            }
         }
 
         protected void btnPitanje_Click(object sender, EventArgs e)
         {
             string Article = Request.QueryString["ArticleId"];
             //UNOS PITANJA ZA ČLANAK
-            if (txtSelectedIndex.Text == "")
+            //get
+            string username = (string)Session["korisnickoIme"];
+            if (username != null)
             {
-               if (txtPitanje.Text!="")
-               {
-                
-                try
-                {
-                    SqlCommand cmd = new SqlCommand("Insert into Pitanja(Pitanje,Datum,IdClanak,IdKorisnik) VALUES (@Pitanje,@Datum,@IdClanak,@IdKorisnik)");
-                    cmd.CommandType = CommandType.Text;
-                    cmd.Connection = connection;
-                    cmd.Parameters.AddWithValue("@Pitanje", txtPitanje.Text);
-                    cmd.Parameters.AddWithValue("@Datum", DateTime.Now);
-                    cmd.Parameters.AddWithValue("@IdClanak", Convert.ToInt32(Article));
-                    cmd.Parameters.AddWithValue("@IdKorisnik", 1);
-                    connection.Open();
-                    cmd.ExecuteNonQuery();
 
-                    MessageBox.Show("Pitanje Uspješno uneseno", "Important Message");
-                    txtSelectedIndex.Text = "";
+                if (txtSelectedIndex.Text == "")
+                {
+                    if (txtPitanje.Text != "")
+                    {
+
+                        try
+                        {
+                            SqlCommand cmd = new SqlCommand("Insert into Pitanja(Pitanje,Datum,IdClanak,IdKorisnik) VALUES (@Pitanje,@Datum,@IdClanak,@IdKorisnik)");
+                            cmd.CommandType = CommandType.Text;
+                            cmd.Connection = connection;
+                            cmd.Parameters.AddWithValue("@Pitanje", txtPitanje.Text);
+                            cmd.Parameters.AddWithValue("@Datum", DateTime.Now);
+                            cmd.Parameters.AddWithValue("@IdClanak", Convert.ToInt32(Article));
+                            cmd.Parameters.AddWithValue("@IdKorisnik", Convert.ToInt32(Session["UserId"]));
+                            connection.Open();
+                            cmd.ExecuteNonQuery();
+
+                            MessageBox.Show("Pitanje Uspješno uneseno", "Important Message");
+                            txtSelectedIndex.Text = "";
+                        }
+                        catch (Exception ex) { MessageBox.Show("Pitanje NIJE uspješno unesenok", "Important Message"); }
+                        txtPitanje.Text = "";
+                        refreshVotingData();
+                        BindData(Convert.ToInt32(Article));
+                    }
+                    else { MessageBox.Show("Unijeti pitanje", "Important Message"); }
                 }
-                catch (Exception ex) { MessageBox.Show("Pitanje NIJE uspješno unesenok", "Important Message"); }
-                txtPitanje.Text = "";
-                refreshVotingData();
-                BindData(Convert.ToInt32(Article));
-               }
-               else {MessageBox.Show("Unijeti pitanje", "Important Message");}
-            }
+               
+            
             else //UNOS ODGOVORA ZA PITANJE
             {
-               if (txtPitanje.Text!="")
-               {
-                   
-                try
-                {
-                    SqlCommand cmd = new SqlCommand("Insert into Odgovori(Odgovor,IdPitanje,IdKorisnik,Datum) VALUES (@Odgovor,@IdPitanje,@IdKorisnik,@Datum)");
-                    cmd.CommandType = CommandType.Text;
-                    cmd.Connection = connection;
-                    cmd.Parameters.AddWithValue("@Odgovor", txtPitanje.Text);
-                    cmd.Parameters.AddWithValue("@Datum", DateTime.Now);
-                    cmd.Parameters.AddWithValue("@IdPitanje", Convert.ToInt32(txtSelectedIndex.Text));
-                    cmd.Parameters.AddWithValue("@IdKorisnik", 1);
-                    connection.Open();
-                    cmd.ExecuteNonQuery();
+                
+                    if (txtPitanje.Text != "")
+                    {
 
-                    MessageBox.Show("Odgovor Uspješno unesen", "Important Message");
-                    txtSelectedIndex.Text = "";
-                    DropDownListVote.Enabled = false;
-                    btnVote.Enabled = false;
-                }
-                catch (Exception ex) { MessageBox.Show("Odgovor NIJE uspješno unesen", "Important Message"); }
-                txtPitanje.Text = "";
-                refreshVotingData();
-                btnPitanje.Text = "Postavi Pitanje";
-                BindData(Convert.ToInt32(Article));
-               }
-               else { MessageBox.Show("Unijeti odgovor", "Important Message"); }
+                        try
+                        {
+                            SqlCommand cmd = new SqlCommand("Insert into Odgovori(Odgovor,IdPitanje,IdKorisnik,Datum) VALUES (@Odgovor,@IdPitanje,@IdKorisnik,@Datum)");
+                            cmd.CommandType = CommandType.Text;
+                            cmd.Connection = connection;
+                            cmd.Parameters.AddWithValue("@Odgovor", txtPitanje.Text);
+                            cmd.Parameters.AddWithValue("@Datum", DateTime.Now);
+                            cmd.Parameters.AddWithValue("@IdPitanje", Convert.ToInt32(txtSelectedIndex.Text));
+                            cmd.Parameters.AddWithValue("@IdKorisnik", Convert.ToInt32(Session["UserId"]));
+                            connection.Open();
+                            cmd.ExecuteNonQuery();
+
+                            MessageBox.Show("Odgovor Uspješno unesen", "Important Message");
+                            txtSelectedIndex.Text = "";
+                            DropDownListVote.Enabled = false;
+                            btnVote.Enabled = false;
+                        }
+                        catch (Exception ex) { MessageBox.Show("Odgovor NIJE uspješno unesen", "Important Message"); }
+                        txtPitanje.Text = "";
+                        refreshVotingData();
+                        btnPitanje.Text = "Postavi Pitanje";
+                        BindData(Convert.ToInt32(Article));
+                    }
+                    else { MessageBox.Show("Unijeti odgovor", "Important Message"); }
+                
+                
             }
+            }
+            else
+                {
+                    MessageBox.Show("Logirajte se !");
+                    //Response.Redirect("~/Account/Login.aspx");
+                }
 
             btnUndo.Enabled = false;
             

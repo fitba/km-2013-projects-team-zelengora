@@ -22,7 +22,7 @@
         onselectedindexchanged="DropDownCategory_SelectedIndexChanged" Width="151px">
     </asp:DropDownList>
     <asp:Button ID="Button2" runat="server" onclick="Button2_Click1" 
-        style="height: 26px" Text="Dopuni kategorije" />
+        style="height: 26px" Text="Dopuni kategorije" Visible="True" />
 </p>
 <p>
     <asp:Label ID="Label5" runat="server" Text="Ključne riječi:"></asp:Label>
@@ -39,7 +39,7 @@
     <asp:TextBox ID="txtKljucnaRijec9" runat="server" Width="108px"></asp:TextBox>
     <asp:TextBox ID="txtKljucnaRijec10" runat="server" Width="108px"></asp:TextBox>
         <asp:Button ID="btnKljucneRijeci" runat="server" onclick="Button3_Click1" 
-            Text="UnesiKLjucneRijeci" />
+            Text="UnesiKLjucneRijeci" Visible="false" />
 </p>
 <p>
     <asp:Button ID="Button1" runat="server" onclick="Button1_Click" Text="Spremi" />

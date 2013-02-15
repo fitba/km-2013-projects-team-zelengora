@@ -17,6 +17,8 @@ namespace KMWeb.Administration
 {
     public partial class NewArticle : System.Web.UI.Page
     {
+        
+
         int LastId = 0;
         static string connStr = ConfigurationManager.ConnectionStrings["ApplicationServices"].ConnectionString;
         SqlConnection connection = new SqlConnection(connStr);
@@ -32,7 +34,13 @@ namespace KMWeb.Administration
         string KljucnaRijec10 = "";
         protected void Page_Load(object sender, EventArgs e)
         {
-            
+            //get
+            string username = (string)Session["korisnickoIme"];
+            if (username == null)
+            {
+                MessageBox.Show("Logirajte se !");
+                Response.Redirect("~/Account/Login.aspx");
+            }
         }
 
         protected void Button1_Click(object sender, EventArgs e)
@@ -46,8 +54,8 @@ namespace KMWeb.Administration
                 cmd.Parameters.AddWithValue("@Naslov", txtNaslov.Text);
                 cmd.Parameters.AddWithValue("@Sadrzaj", txtSadrzaj.Text);
                 cmd.Parameters.AddWithValue("@IdKategorija", DropDownCategory.SelectedValue);
-                cmd.Parameters.AddWithValue("@IdKorisnik", "1");
-                cmd.Parameters.AddWithValue("@DatumKreiranja", DateTime.Now.Date.ToShortDateString());
+                cmd.Parameters.AddWithValue("@IdKorisnik", Convert.ToInt32(Session["UserId"]));
+                cmd.Parameters.AddWithValue("@DatumKreiranja", DateTime.Now.Date);
 
                 connection.Open();
                 //cmd.exExecuteNonQuery();

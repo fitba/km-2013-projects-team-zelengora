@@ -20,34 +20,38 @@ namespace KMWeb
         public static void SearchSomething(string wordToSearch)
         {
             //state the file location of the index
-            string indexFileLocation = @"E:\\GitHub\\TempLucene";
-            Lucene.Net.Store.Directory dir =  Lucene.Net.Store.FSDirectory.Open(indexFileLocation);
+            string indexDir = @"E:\\GitHub\\LuceneIndex";
 
-            //create an index searcher that will perform the search
-            Lucene.Net.Search.IndexSearcher searcher = new
-            Lucene.Net.Search.IndexSearcher(dir);
+            String query = wordToSearch;
+            Directory dir = FSDirectory.Open(indexDir);
 
-            //build a query object
-            Lucene.Net.Index.Term searchTerm =
-              new Lucene.Net.Index.Term("content", "plan");
-            Lucene.Net.Search.Query query = new Lucene.Net.Search.TermQuery(searchTerm);
+            IndexReader reader = IndexReader.Open(dir,true);
+            IndexSearcher searcher = new IndexSearcher(reader);
 
-            //execute the query
-           // Lucene.Net.Search.Hits hits = searcher.Search(query);
-            Lucene.Net.Search.TopDocs hits = searcher.Search(query,10);
-            Document doc = searcher.Doc(0);
-            //iterate over the results.
-            for (int i = 0; i < hits.TotalHits; i++)
-            {
-                //Document doc = hits.Doc(i);
-              
-               // Document doc = searcher.Doc(0);
-                string contentValue = doc.Get("content");
+            Lucene.Net.Util.Version v = Lucene.Net.Util.Version.LUCENE_30;
 
-                Console.WriteLine(contentValue);
+            String defaultField = "postBody";
+            Analyzer analyzer = new StandardAnalyzer(v);
 
+            QueryParser parser = new QueryParser(v, defaultField, analyzer);
+
+            Query q = parser.Parse(query);
+
+            TopDocs hits = searcher.Search(q, 10);
+
+            ScoreDoc[] scoreDocs = hits.ScoreDocs;
+
+            for (int n = 0; n < scoreDocs.Length; n++)
+            { 
+               ScoreDoc sd = scoreDocs[n];
+               float score = sd.Score;
+               int docId = sd.Doc;
+               Document d = searcher.Doc(docId);
+               Document d1 = searcher.Doc(hits.ScoreDocs[n].Doc);
+               String f = d.Get("postBody");
+               String fp = d.Get("population");
+            
             }
-
            
         }
         protected void Page_Load(object sender, EventArgs e)

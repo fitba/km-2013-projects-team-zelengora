@@ -18,8 +18,12 @@ namespace KMWeb.Administration
         SqlConnection connection = new SqlConnection(connStr);
         protected void Page_Load(object sender, EventArgs e)
         {
+            
             string Article = Request.QueryString["ArticleId"];
-
+            string username = (string)Session["korisnickoIme"];
+            if (username != null)
+            {
+                
             DataSet ds = new DataSet();
             connection.Open();
             SqlCommand cmd = new SqlCommand("SELECT Clanci.Id As Id, Clanci.Naslov AS Naslov, Clanci.Sadrzaj AS Sadrzaj, Clanci.DatumKreiranja AS DatumKreiranja, Korisnici.Id AS IdKorisnik, Korisnici.Ime, Korisnici.Prezime, Korisnici.KorisnickoIme"
@@ -40,6 +44,12 @@ namespace KMWeb.Administration
             connection.Close();
             if (!IsPostBack)
             LoadPrijedlog();
+            }
+            else{
+               MessageBox.Show("Logirajte se !");
+               Response.Redirect("~/Account/Login.aspx");
+            }
+
         }
 
         private void LoadPrijedlog()
@@ -60,7 +70,7 @@ namespace KMWeb.Administration
                 cmd.Parameters.AddWithValue("@IdClanak", Convert.ToInt32(Article));
                 cmd.Parameters.AddWithValue("@Naslov", txtPrijedlogNaslova.Text);
                 cmd.Parameters.AddWithValue("@Sadrzaj", txtPrijedlogSadrzaja.Text);
-                cmd.Parameters.AddWithValue("@IdKorisnik", "5");
+                cmd.Parameters.AddWithValue("@IdKorisnik", Convert.ToInt32(Session["UserId"]));
                 cmd.Parameters.AddWithValue("@DatumPrijedloga", DateTime.Now.Date);
                 cmd.Parameters.AddWithValue("@Status", "1"); //1 = Predlozeno
 
