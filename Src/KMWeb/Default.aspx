@@ -66,7 +66,9 @@
             <td>
                 &nbsp;</td>
             <td>
-                &nbsp;</td>
+                <asp:Button ID="Button1" runat="server" onclick="Button1_Click" 
+                    Text="Test Solr" />
+            </td>
         </tr>
     </table>
     <br />

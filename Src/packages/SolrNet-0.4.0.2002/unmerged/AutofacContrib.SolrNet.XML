@@ -1,0 +1,67 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>AutofacContrib.SolrNet</name>
+    </assembly>
+    <members>
+        <member name="T:AutofacContrib.SolrNet.Config.SolrServerElement">
+            <summary>
+            Solr instance or core config
+            </summary>
+        </member>
+        <member name="P:AutofacContrib.SolrNet.Config.SolrServerElement.Id">
+            <summary>
+            Core / instance ID
+            </summary>
+        </member>
+        <member name="P:AutofacContrib.SolrNet.Config.SolrServerElement.Url">
+            <summary>
+            Core / instance URL
+            </summary>
+        </member>
+        <member name="P:AutofacContrib.SolrNet.Config.SolrServerElement.DocumentType">
+            <summary>
+            Core / instance document type
+            </summary>
+        </member>
+        <member name="T:AutofacContrib.SolrNet.Config.SolrServers">
+            <summary>
+            Solr cores / instances configuration
+            </summary>
+        </member>
+        <member name="M:AutofacContrib.SolrNet.Config.SolrServers.Add(AutofacContrib.SolrNet.Config.SolrServerElement)">
+            <summary>
+            Adds a new core / instance to the config
+            </summary>
+            <param name="configurationElement"></param>
+        </member>
+        <member name="T:AutofacContrib.SolrNet.SolrNetModule">
+            <summary>
+            Configures SolrNet in an Autofac container
+            </summary>
+        </member>
+        <member name="M:AutofacContrib.SolrNet.SolrNetModule.#ctor(System.String)">
+            <summary>
+              Register a single-core server
+            </summary>
+            <param name = "serverUrl"></param>
+        </member>
+        <member name="M:AutofacContrib.SolrNet.SolrNetModule.#ctor(AutofacContrib.SolrNet.Config.SolrServers)">
+            <summary>
+              Register multi-core server
+            </summary>
+            <param name = "solrServers"></param>
+        </member>
+        <member name="M:AutofacContrib.SolrNet.SolrNetModule.RegisterCore(AutofacContrib.SolrNet.SolrCore,Autofac.ContainerBuilder)">
+            <summary>
+              Registers a new core in the container.
+              This method is meant to be used after the facility initialization
+            </summary>
+        </member>
+        <member name="P:AutofacContrib.SolrNet.SolrNetModule.Mapper">
+            <summary>
+            Optional override for document mapper
+            </summary>
+        </member>
+    </members>
+</doc>

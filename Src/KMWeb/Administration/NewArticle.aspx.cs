@@ -120,7 +120,7 @@ namespace KMWeb.Administration
 
         protected void Button2_Click1(object sender, EventArgs e)
         {
-            FillDropDownList();
+           // FillDropDownList();
         }
 
         private void insertKljucneRijeci() 
@@ -198,6 +198,11 @@ namespace KMWeb.Administration
         {
             insertKljucneRijeci();
 
+        }
+
+        protected void DropDownCategory_Init(object sender, EventArgs e)
+        {
+            FillDropDownList();
         }
     }
 }

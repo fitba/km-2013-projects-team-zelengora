@@ -19,7 +19,8 @@
     <asp:DropDownList ID="DropDownCategory" runat="server" 
         DataTextField="NazivKategorije" DataValueField="Id" Height="19px" 
         onload="DropDownList1_Load" 
-        onselectedindexchanged="DropDownCategory_SelectedIndexChanged" Width="151px">
+        onselectedindexchanged="DropDownCategory_SelectedIndexChanged" 
+        Width="151px" oninit="DropDownCategory_Init">
     </asp:DropDownList>
     <asp:Button ID="Button2" runat="server" onclick="Button2_Click1" 
         style="height: 26px" Text="Dopuni kategorije" Visible="True" />

@@ -12,48 +12,80 @@ using Lucene.Net.Documents;
 using Lucene.Net;
 using Lucene.Net.QueryParsers;
 using Lucene.Net.Search;
+using SolrNet.Commands;
+using SolrNet.Attributes;
+using SolrNet;
+using Microsoft.Practices.ServiceLocation;
+
+
 
 namespace KMWeb
 {
     public partial class _Default : System.Web.UI.Page
     {
 
-        private static void writeDoc ()
+        public class Product
         {
-          //state the file location of the index
-            string indexFileLocation = @"E:\\GitHub\\TempLucene";
-            Lucene.Net.Store.Directory dir = Lucene.Net.Store.FSDirectory.Open(indexFileLocation);
+            [SolrUniqueKey("id")]
+            public string Id { get; set; }
 
-//create an analyzer to process the text
-Lucene.Net.Analysis.Analyzer analyzer = new
-Lucene.Net.Analysis.Standard.StandardAnalyzer(Lucene.Net.Util.Version.LUCENE_30); 
+            [SolrField("manu_exact")]
+            public string Manufacturer { get; set; }
 
-//create the index writer with the directory and analyzer defined.
-Lucene.Net.Index.IndexWriter indexWriter = new Lucene.Net.Index.IndexWriter(dir, analyzer, IndexWriter.MaxFieldLength.UNLIMITED); 
+            [SolrField("cat")]
+            public ICollection<string> Categories { get; set; }
 
-//create a document, add in a single field
-Lucene.Net.Documents.Document doc = new Lucene.Net.Documents.Document();
+            [SolrField("price")]
+            public decimal Price { get; set; }
 
-Lucene.Net.Documents.Field fldContent = 
-  new Lucene.Net.Documents.Field("content", 
-  "The quick brown fox jumps over the lazy dog",
-  Lucene.Net.Documents.Field.Store.YES, 
-
-
-Lucene.Net.Documents.Field.Index.NOT_ANALYZED, 
-Lucene.Net.Documents.Field.TermVector.YES);
-
-doc.Add(fldContent);
-
-//write the document to the index
-indexWriter.AddDocument(doc);
-
-//optimize and close the writer
-indexWriter.Optimize(); 
-indexWriter.Close();
-
+            [SolrField("inStock")]
+            public bool InStock { get; set; }
         }
 
+        public void Add()
+        {
+            var p = new Product
+            {
+                Id = "SP2514N",
+                Manufacturer = "Samsung Electronics Co. Ltd.", Categories = new[] {"electronics","hard drive",},
+                Price = 92,
+                InStock = true,
+            };
+
+            var p1 = new Product
+            {
+                Id = "SP2514A",
+                Manufacturer = "Nedim Samsung",
+                Categories = new[] { "electronics", "hard drive", },
+                Price = 192,
+                InStock = true,
+            };
+
+            var solr = ServiceLocator.Current.GetInstance<ISolrOperations<Product>>();
+            solr.Add(p);
+            solr.Add(p1);
+
+            solr.Commit();
+            
+        }
+
+        
+
+        public void FixtureSetup()
+        {
+            Startup.Init<Product>("http://localhost:8983/solr");
+        }
+      
+
+
+        public void Query()
+        {
+            var solr = ServiceLocator.Current.GetInstance<ISolrOperations<Product>>();
+            var results = solr.Query(new SolrQueryByField("id", "SP2514A"));
+            Assert.AreEqual(1, results.Count);
+            string a = results[0].Price.ToString();
+            //Console.WriteLine(results[0].Price);
+        }
 
         private static void WriteDocument()
         {
@@ -125,6 +157,14 @@ indexWriter.Close();
         {
             Response.Redirect("~/SearchResults.aspx?WordToSearch=" + txtSearchBox.Text);
             
+        }
+
+        protected void Button1_Click(object sender, EventArgs e)
+        {
+            FixtureSetup();
+            Add();
+            Query();
+            //FixtureSetup();
         }
     }
 }
