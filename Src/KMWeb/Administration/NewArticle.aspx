@@ -23,7 +23,7 @@
         Width="151px" oninit="DropDownCategory_Init">
     </asp:DropDownList>
     <asp:Button ID="Button2" runat="server" onclick="Button2_Click1" 
-        style="height: 26px" Text="Dopuni kategorije" Visible="True" />
+        style="height: 26px" Text="Dopuni kategorije" Visible="False" />
 </p>
 <p>
     <asp:Label ID="Label5" runat="server" Text="Ključne riječi:"></asp:Label>

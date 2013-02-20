@@ -129,7 +129,7 @@ namespace KMWeb
                 Startup.Init<Article>("http://localhost:8983/solr");
             }
             catch (Exception ex) { }
-            Add();
+            //Add();
         }
       
 
@@ -188,9 +188,9 @@ namespace KMWeb
                 HyperLinkWEBP.NavigateUrl = "CategoryView.aspx?CategoryId=2";
                 HyperLinkStatistika.NavigateUrl = "CategoryView.aspx?CategoryId=3";
                 HyperLinkNoCat.NavigateUrl = "CategoryView.aspx?CategoryId=4";
-                FixtureSetup();
+                
                 if (!IsPostBack)
-                {
+                {FixtureSetup();
                    // WriteDocument();
                    // Startup.Init<Article>("http://localhost:8983/solr/km");                  
                 }

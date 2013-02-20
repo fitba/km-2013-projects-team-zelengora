@@ -39,7 +39,7 @@ namespace KMWeb
             //SqlDataAdapter MyAdapter = new SqlDataAdapter(strSel, connection);
            // MyAdapter.Fill(ds, "inout");
 
-            SqlCommand cmd = new SqlCommand("Select Id,Naslov,DatumKreiranja from Clanci where IdKategorija="+Category, connection);
+            SqlCommand cmd = new SqlCommand("Select Id,Naslov,DatumKreiranja from Clanci where IdKategorija="+Category + "Order by DatumKreiranja DESC", connection);
 
             SqlDataAdapter da = new SqlDataAdapter(cmd);
 

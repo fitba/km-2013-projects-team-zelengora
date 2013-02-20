@@ -18,6 +18,7 @@ using SolrNet.Attributes;
 using System.Net;
 using SolrNet.Impl;
 using System.IO;
+using SolrNet.Commands.Parameters;
 
 namespace KMWeb
 {
@@ -100,52 +101,46 @@ namespace KMWeb
             {
                 var solr = ServiceLocator.Current.GetInstance<ISolrOperations<Article>>();
 
-                var article = solr.Query(new SolrQuery("articletext:" + _wordSearchWord)); // search for "lucene" in the default field
-                var q = new SolrQueryInList("articletext", "nedim", "samsung", "maxtor"); //name:solr OR name:samsung OR name:maxtor"
-                var article2 = solr.Query(q);
-                var article1 = solr.Query(new SolrQuery("articletitle:nedim")); // search for "solr" in the "name" field
-                //Assert.AreEqual(1, results.Count);
+                var article = solr.Query(new SolrQuery("articletext:" + _wordSearchWord), new QueryOptions
+                {
+                    Highlight = new HighlightingParameters
+                    {
+                        Fields = new[] { "articletext" },
+                        MaxAnalyzedChars = 10000,
+                    }
+                });
 
                 if (article.Count == 0)
-                { lblNotFound.Visible = true; }
+                {
+                    lblNotFound.Visible = true;
+                }
                 else
                 {
-
                     for (int i = 0; i < article.Count; i++)
                     {
-
                         _articleId = article[i].articleId.ToString();
-                        _articleText = article[i].articleText.ToString();
-                        _articleTitle = article[i].articleTitle.ToString();
-
                         _url = "ArticleView.aspx?ArticleId=" + _articleId;
-
-                        // txtWordFound.Text = _articleText;
-
+                        _articleTitle = article[i].articleTitle.ToString();
                         TableRow tr = new TableRow();
-                        TableCell td1;
                         TableCell td = new TableCell { Text = "<a href='" + _url + "'>" + _articleTitle + "</a>" };
-                        //<a href="http://www.w3schools.com">Visit W3Schools.com!</a>
-
                         tr.Cells.Add(td);
-                        TableRow tr1 = new TableRow();
-                        _stringLength = _articleText.Length;
-                        if (_stringLength > 300) //Dužina teksta koji će se prikazati u rezultatu pretrage
+                        t.Rows.Add(tr);
+
+                        foreach (var h in article.Highlights[article[i].articleId.ToString()])
                         {
-                            _limit = 300;
+                            TableRow tr1 = new TableRow();
+                            TableCell td1;
+                            td1 = new TableCell { Text = string.Join(",", h.Value.ToArray()) };
+                            tr1.Cells.Add(td1);
+                            t.Rows.Add(tr1);
+                        }
 
-                            td1 = new TableCell { Text = _articleText.Substring(0, _limit) + "..." };
-                        }else
-                            td1 = new TableCell { Text = _articleText.Substring(0, _stringLength) + "" };
-
-                        tr1.Cells.Add(td1);
                         TableRow tr2 = new TableRow();
                         TableCell td2 = new TableCell { Text = "Kategorija:" + "<br>________________________________________________________<br>" };
                         tr2.Cells.Add(td2);
-
-                        t.Rows.Add(tr);
-                        t.Rows.Add(tr1);
                         t.Rows.Add(tr2);
+
+
                     }
 
                     using (StringWriter sw = new StringWriter())
@@ -155,9 +150,66 @@ namespace KMWeb
                     }
                     this.MyPanel.Controls.Add(t);
                 }
-            }
 
+                //  var q = new SolrQueryInList("articletext", "nedim", "clanak", "unikat"); //name:solr OR name:samsung OR name:maxtor"
+                //article = solr.Query(q); 
+                // var article1 = solr.Query(new SolrQuery("articletitle:nedim")); // search for "solr" in the "name" field
+                //Assert.AreEqual(1, results.Count);
+
+                /*     if (article.Count == 0)
+                     { lblNotFound.Visible = true; }
+                     else
+                     {
+
+                         for (int i = 0; i < article.Count; i++)
+                         {
+
+                             _articleId = article[i].articleId.ToString();
+                             _articleText = article[i].articleText.ToString();
+                             _articleTitle = article[i].articleTitle.ToString();
+
+                             _url = "ArticleView.aspx?ArticleId=" + _articleId;
+
+                             // txtWordFound.Text = _articleText;
+
+                             TableRow tr = new TableRow();
+                             TableCell td1;
+                             TableCell td = new TableCell { Text = "<a href='" + _url + "'>" + _articleTitle + "</a>" };
+                             //<a href="http://www.w3schools.com">Visit W3Schools.com!</a>
+
+                             tr.Cells.Add(td);
+                             TableRow tr1 = new TableRow();
+                             _stringLength = _articleText.Length;
+                             if (_stringLength > 300) //Dužina teksta koji će se prikazati u rezultatu pretrage
+                             {
+                                 _limit = 300;
+
+                                 td1 = new TableCell { Text = _articleText.Substring(0, _limit) + "..." };
+                             }else
+                                 td1 = new TableCell { Text = _articleText.Substring(0, _stringLength) + "" };
+
+                             tr1.Cells.Add(td1);
+                             TableRow tr2 = new TableRow();
+                             TableCell td2 = new TableCell { Text = "Kategorija:" + "<br>________________________________________________________<br>" };
+                             tr2.Cells.Add(td2);
+
+                             t.Rows.Add(tr);
+                             t.Rows.Add(tr1);
+                             t.Rows.Add(tr2);
+                         }
+
+                         using (StringWriter sw = new StringWriter())
+                         {
+                             t.RenderControl(new HtmlTextWriter(sw));
+                             string html = sw.ToString();
+                         }
+                         this.MyPanel.Controls.Add(t);
+                     }
+                 }
+      */
+            }
             else { lblNotFound.Visible = true; }
+       
         }
         protected void Page_Load(object sender, EventArgs e)
         {
