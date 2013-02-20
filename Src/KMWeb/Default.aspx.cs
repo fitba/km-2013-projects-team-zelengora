@@ -16,6 +16,8 @@ using SolrNet.Commands;
 using SolrNet.Attributes;
 using SolrNet;
 using Microsoft.Practices.ServiceLocation;
+using System.Net;
+using System.IO;
 
 
 
@@ -42,9 +44,27 @@ namespace KMWeb
             public bool InStock { get; set; }
         }
 
+
+        internal class Article
+        {
+
+            [SolrUniqueKey("articleid")]
+            public int articleId { get; internal set; }
+
+            [SolrField("articletitle")]
+            public string articleTitle
+            { get; internal set; }
+
+            [SolrField("articletext")]
+            public string articleText { get; internal set; }
+
+        }
+
+
+
         public void Add()
         {
-            var p = new Product
+           /* var p = new Product
             {
                 Id = "SP2514N",
                 Manufacturer = "Samsung Electronics Co. Ltd.", Categories = new[] {"electronics","hard drive",},
@@ -59,38 +79,66 @@ namespace KMWeb
                 Categories = new[] { "electronics", "hard drive", },
                 Price = 192,
                 InStock = true,
+            };*/
+            
+            var article = new Article
+            {              
+              articleId = 1, 
+              articleTitle = "Naslov 1",
+              articleText = "U ovom tekstu postiji rijec mrva",          
             };
 
-            var solr = ServiceLocator.Current.GetInstance<ISolrOperations<Product>>();
-            solr.Add(p);
-            solr.Add(p1);
+            var article1 = new Article
+            {
+                articleId = 2,
+                articleTitle = "Naslov 2",
+                articleText = "Ovo je samo tekst za pretragu za primejr i u njemu je moguce pronaci mrvu. jedna mrva",
+            };
 
-            solr.Commit();
+
+            //ISolrOperations<Product> solrProduct = ServiceLocator.Current.GetInstance<ISolrOperations<Product>>();
+            ISolrOperations<Article> solrArticle = ServiceLocator.Current.GetInstance<ISolrOperations<Article>>();
+
+
+            //solrArticle.Delete(SolrQuery.All);
+
+           // var solr = ServiceLocator.Current.GetInstance<ISolrOperations<Product>>();
+           // var solr1 = ServiceLocator.Current.GetInstance<ISolrOperations<Article>>();
+            solrArticle.Add(article);
+            solrArticle.Add(article1);
+
+            solrArticle.Commit();
+            //var products = solrProduct.Query(new SolrQueryByRange<decimal>("price", 10m, 200m));
+        }
+
+
+        public void deleteProduct()
+        {
+            ISolrOperations<Product> solrProduct = ServiceLocator.Current.GetInstance<ISolrOperations<Product>>();
+
+            solrProduct.Delete("SP2514N");
+
+            solrProduct.Commit();
             
         }
 
-        
-
         public void FixtureSetup()
         {
-            Startup.Init<Product>("http://localhost:8983/solr");
+            try
+            {
+                Startup.Init<Article>("http://localhost:8983/solr");
+            }
+            catch (Exception ex) { }
+            Add();
         }
       
 
 
-        public void Query()
-        {
-            var solr = ServiceLocator.Current.GetInstance<ISolrOperations<Product>>();
-            var results = solr.Query(new SolrQueryByField("id", "SP2514A"));
-            Assert.AreEqual(1, results.Count);
-            string a = results[0].Price.ToString();
-            //Console.WriteLine(results[0].Price);
-        }
 
         private static void WriteDocument()
         {
 
-            Directory directory = FSDirectory.Open("E:\\GitHub\\LuceneIndex");
+            Lucene.Net.Store.Directory directory = FSDirectory.Open("E:\\GitHub\\LuceneIndex");
             Analyzer analyzer = new StandardAnalyzer(Lucene.Net.Util.Version.LUCENE_30);
             IndexWriter writer = new IndexWriter(directory, analyzer,IndexWriter.MaxFieldLength.UNLIMITED);
 
@@ -140,7 +188,12 @@ namespace KMWeb
                 HyperLinkWEBP.NavigateUrl = "CategoryView.aspx?CategoryId=2";
                 HyperLinkStatistika.NavigateUrl = "CategoryView.aspx?CategoryId=3";
                 HyperLinkNoCat.NavigateUrl = "CategoryView.aspx?CategoryId=4";
-               if (!IsPostBack) WriteDocument();      
+                FixtureSetup();
+                if (!IsPostBack)
+                {
+                   // WriteDocument();
+                   // Startup.Init<Article>("http://localhost:8983/solr/km");                  
+                }
         }
 
         protected void LinkButton1_Click(object sender, EventArgs e)
@@ -156,15 +209,23 @@ namespace KMWeb
         protected void btnSearchBox_Click(object sender, EventArgs e)
         {
             Response.Redirect("~/SearchResults.aspx?WordToSearch=" + txtSearchBox.Text);
-            
+            //Query();
         }
 
         protected void Button1_Click(object sender, EventArgs e)
         {
-            FixtureSetup();
-            Add();
-            Query();
-            //FixtureSetup();
+            
+            //deleteProduct();  //Ova funkcija radi ali je necu pozivati
+            
+            string sURL;
+            sURL = "http://localhost:8983/solr/dataimport?command=full-import";
+
+            WebRequest wrGETURL;
+            wrGETURL = WebRequest.Create(sURL);
+
+            Stream objStream;
+            objStream = wrGETURL.GetResponse().GetResponseStream();
+         
         }
     }
 }
