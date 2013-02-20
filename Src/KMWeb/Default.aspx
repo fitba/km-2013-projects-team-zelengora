@@ -2,6 +2,12 @@
     CodeBehind="Default.aspx.cs" Inherits="KMWeb._Default" %>
 
 <asp:Content ID="HeaderContent" runat="server" ContentPlaceHolderID="HeadContent">
+    <style type="text/css">
+        .style1
+        {
+            width: 553px;
+        }
+    </style>
 </asp:Content>
 <asp:Content ID="BodyContent" runat="server" ContentPlaceHolderID="MainContent">
     
@@ -9,7 +15,7 @@
         <tr>
             <td>
                 &nbsp;</td>
-            <td align="center">
+            <td align="center" class="style1">
                 <asp:Label ID="Label2" runat="server" 
                     Text="KNOWLEDGE MANAGEMENT GROUP ZELENGORA"></asp:Label>
             </td>
@@ -19,7 +25,7 @@
         <tr>
             <td>
                 &nbsp;</td>
-            <td align="center">
+            <td align="center" class="style1">
                 &nbsp;</td>
             <td>
                 &nbsp;</td>
@@ -27,8 +33,8 @@
         <tr>
             <td>
                 &nbsp;</td>
-            <td align="center">
-      <asp:TextBox ID="txtSearchBox" runat="server" Height="31px" Width="467px"></asp:TextBox>
+            <td align="right" class="style1">
+      <asp:TextBox ID="txtSearchBox" runat="server" Height="31px" Width="467px" ></asp:TextBox>
             </td>
             <td>
       <asp:Button ID="btnSearchBox" runat="server" Text="Search" onclick="btnSearchBox_Click" />
@@ -42,18 +48,18 @@
     <table style="width:100%;">
         <tr>
             <td>
-                <asp:HyperLink ID="HyperLinkKM" runat="server">KNOWLEDGE MANAGEMENT</asp:HyperLink>
+                <asp:HyperLink ID="HyperLinkKM" runat="server" Visible="false">KNOWLEDGE MANAGEMENT</asp:HyperLink>
             </td>
             <td>
-                <asp:HyperLink ID="HyperLinkWEBP" runat="server">WEB TEHNOLOGIJE&amp;PROGRAMIRANJE</asp:HyperLink>
+                <asp:HyperLink ID="HyperLinkWEBP" runat="server" Visible="false">WEB TEHNOLOGIJE&amp;PROGRAMIRANJE</asp:HyperLink>
             </td>
             <td>
-                <asp:HyperLink ID="HyperLinkStatistika" runat="server">STATISTIKA</asp:HyperLink>
+                <asp:HyperLink ID="HyperLinkStatistika" runat="server" Visible="false">STATISTIKA</asp:HyperLink>
             </td>
         </tr>
         <tr>
             <td>
-                <asp:HyperLink ID="HyperLinkNoCat" runat="server">NEKATEGORIZOVANO</asp:HyperLink>
+                <asp:HyperLink ID="HyperLinkNoCat" runat="server" Visible="false">NEKATEGORIZOVANO</asp:HyperLink>
             </td>
             <td>
                 &nbsp;</td>

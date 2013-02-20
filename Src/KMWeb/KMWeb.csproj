@@ -91,6 +91,7 @@
     <Content Include="Account\Register.aspx" />
     <Content Include="Administration\AdministratorHome.aspx" />
     <Content Include="Administration\CompareRevision.aspx" />
+    <Content Include="Administration\ManageCategories.aspx" />
     <Content Include="Administration\NewArticle.aspx" />
     <Content Include="Administration\NewRevision.aspx" />
     <Content Include="App_Data\KMDatabase.mdf" />
@@ -167,6 +168,13 @@
     <Compile Include="Administration\CompareRevision.aspx.designer.cs">
       <DependentUpon>CompareRevision.aspx</DependentUpon>
     </Compile>
+    <Compile Include="Administration\ManageCategories.aspx.cs">
+      <DependentUpon>ManageCategories.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Administration\ManageCategories.aspx.designer.cs">
+      <DependentUpon>ManageCategories.aspx</DependentUpon>
+    </Compile>
     <Compile Include="Administration\NewArticle.aspx.cs">
       <DependentUpon>NewArticle.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
@@ -237,7 +245,7 @@
     <VisualStudio>
       <FlavorProperties GUID="{349c5851-65df-11da-9384-00065b846f21}">
         <WebProjectProperties>
-          <UseIIS>True</UseIIS>
+          <UseIIS>False</UseIIS>
           <AutoAssignPort>True</AutoAssignPort>
           <DevelopmentServerPort>51615</DevelopmentServerPort>
           <DevelopmentServerVPath>/</DevelopmentServerVPath>

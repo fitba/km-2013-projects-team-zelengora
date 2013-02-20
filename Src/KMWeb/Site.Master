@@ -48,7 +48,22 @@
                 <asp:Label ID="Label1" runat="server" Text="Administracija:  "></asp:Label>
                 <asp:LinkButton ID="btnAdminHome" runat="server" onclick="btnAdminHome_Click">Home</asp:LinkButton>
 &nbsp;<asp:LinkButton ID="LinkButton1" runat="server" onclick="LinkButton1_Click1">Novi Članak</asp:LinkButton>
-               &nbsp;</div>
+               &nbsp;<asp:LinkButton ID="LinkButton2" runat="server" 
+                    onclick="LinkButton2_Click">Nova kategorija</asp:LinkButton>
+                <br />
+                <br />
+                <asp:GridView ID="gvKategorije" runat="server" AutoGenerateSelectButton="True" 
+                    DataKeyNames = "Id" AutoGenerateColumns="False" 
+                    onselectedindexchanged="gvKategorije_SelectedIndexChanged" >
+                     <Columns>
+                        <asp:BoundField DataField="Id" HeaderText="Id" Visible="true"/>
+                        <asp:BoundField DataField="NazivKategorije" HeaderText="Kategorija" />     
+                      </Columns>
+                </asp:GridView>
+
+                <br />
+                <br />
+               </div>
             
            </div>
            <div class="clear">
