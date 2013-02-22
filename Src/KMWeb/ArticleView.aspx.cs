@@ -39,10 +39,7 @@ namespace KMWeb
                 txtSadrzaj.Text = reader["Sadrzaj"].ToString();
                 txtDate.Text = reader["DatumKreiranja"].ToString();
                 lblAutor.Text = reader["Ime"].ToString() + " " + reader["Prezime"].ToString() + " -"; 
-                /*TextBox3.Text = reader["BRANCH"].ToString();
-                TextBox4.Text = reader["ADDRESS"].ToString();
-                TextBox5.Text = reader["PHNO"].ToString();
-                TextBox6.Text = reader["STATE"].ToString();*/
+                
                 reader.Close();
                 connection.Close();
             }
@@ -114,7 +111,10 @@ namespace KMWeb
         {
             DataSet ds = new DataSet();
             DataSet ds2 = new DataSet();
-            SqlCommand cmd = new SqlCommand("Select Id,Pitanje,Datum from Pitanja where IdClanak="+ IdClanak, connection);
+            SqlCommand cmd = new SqlCommand("Select P.Id AS Id,P.Pitanje AS Pitanje, P.Datum AS Datum, K.Ime AS Ime,"
+            + " K.Prezime AS Prezime, "
+            + " K.KorisnickoIme AS KorisnickoIme from Pitanja AS P JOIN dbo.Korisnici AS K ON P.IdKorisnik=K.Id" 
+            + " where IdClanak=" + IdClanak, connection);
             SqlDataAdapter da = new SqlDataAdapter(cmd);
             SqlCommand cmd2 = null;
             SqlDataAdapter da2;
@@ -130,6 +130,7 @@ namespace KMWeb
             dt.Columns.Add("Date");
             dt.Columns.Add("IdType");
             dt.Columns.Add("Type");
+            dt.Columns.Add("Username");
             //dt.Columns.Add("Ocjena");
           
             //dt.Columns.Add("josjednacolona");
@@ -152,6 +153,7 @@ namespace KMWeb
                             dr["Date"] = ds.Tables[0].Rows[i]["Datum"].ToString();
                             dr["IdType"] = 1;
                             dr["Type"] = "Pitanje postavljeno dana: ";
+                            dr["Username"] = ds.Tables[0].Rows[i]["KorisnickoIme"].ToString();
                            // = ds.Tables[0].Rows[i]["Pitanje"].ToString();
                             //dr["Answer"] = txtAnswer.Text;
                            
@@ -165,7 +167,8 @@ namespace KMWeb
 
 
                         idpitanje = (int)ds.Tables[0].Rows[i]["Id"];
-                        cmd2 = new SqlCommand("Select Id,Odgovor,Datum from Odgovori where IdPitanje=" + idpitanje, connection);
+                        cmd2 = new SqlCommand("Select O.Id AS Id ,O.Odgovor As Odgovor,O.Datum AS Datum, K.KorisnickoIme AS KorisnickoIme"
+                        + " from Odgovori AS O JOIN dbo.Korisnici AS K ON O.IdKorisnik=K.Id where IdPitanje=" + idpitanje, connection);
                         da2 = new SqlDataAdapter(cmd2);
                         da2.Fill(ds2, "Odgovori");
 
@@ -187,7 +190,7 @@ namespace KMWeb
                                 dr["Date"] = ds2.Tables[0].Rows[j]["Datum"].ToString();
                                 dr["IdType"] = 2;
                                 dr["Type"] = "Odgovoreno dana: ";
-                                //dr["Answer"] = txtAnswer.Text;
+                                dr["Username"] = ds2.Tables[0].Rows[j]["KorisnickoIme"].ToString();
                                 dt.Rows.Add(dr);
                                 dt.AcceptChanges();
 
@@ -231,6 +234,37 @@ namespace KMWeb
             
             MyPanel.Controls.Add(t);
         }
+        private void refreshVotingDataPitanjaIOdgovori(int vrsta, string idPitanjaOdgovora) // vrsta: 1 = pitanje, 2 = odgovor
+        {
+
+            string _IdPitanjaOdgovora = idPitanjaOdgovora;
+            SqlCommand cmdProsjek;
+            if (vrsta==1)
+                cmdProsjek = new SqlCommand("SELECT AVG(IdOcjene) AS Prosjek, COUNT(IdOcjene) AS BrojOcjena from PitanjeOcjenaPitanja where IdPitanja=" + _IdPitanjaOdgovora, connection);
+            else
+                cmdProsjek = new SqlCommand("SELECT AVG(IdOcjena) AS Prosjek, COUNT(IdOcjena) AS BrojOcjena from OdgovoriOcjeneOdgovora where IdOdgovor=" + _IdPitanjaOdgovora, connection);
+            connection.Open();
+            SqlDataAdapter daProsjek = new SqlDataAdapter(cmdProsjek);
+            SqlDataReader readerProsjek = cmdProsjek.ExecuteReader();
+            if (readerProsjek.Read())
+            {
+                lblProsjecnaOcjena.Text = readerProsjek["Prosjek"].ToString();
+                lblBrojOcjenaPitanjaOdgovora.Text = readerProsjek["BrojOcjena"].ToString();
+            }
+            readerProsjek.Close();
+
+            /*SqlCommand cmdBrojPitanja = new SqlCommand("SELECT COUNT(Pitanje) AS BrojPitanja, IdClanak FROM Pitanja "
+                           + " WHERE IdClanak = " + Article + " GROUP BY IdClanak", connection);
+            SqlDataAdapter daBrojPitanja = new SqlDataAdapter(cmdBrojPitanja);
+            SqlDataReader readerBrojPitanja = cmdBrojPitanja.ExecuteReader();
+            if (readerBrojPitanja.Read())
+            {
+                lblBrojPitanja.Text = readerBrojPitanja["BrojPitanja"].ToString();
+                //lblBrojOcjena.Text = readerBrojPitanja["BrojOcjena"].ToString();
+            }
+            readerBrojPitanja.Close();*/
+            connection.Close();
+        }
 
         protected void gvPitanjaOdgovori_SelectedIndexChanged(object sender, EventArgs e)
         {
@@ -246,17 +280,22 @@ namespace KMWeb
             s1 = gvPitanjaOdgovori.SelectedRow.Cells[3].Text.ToString();
             txtSelectedType.Text = s1;
             txtTempOdgovor.Text = txtSelectedIndex.Text;
-           
+            string IdOdgovora = s1;
+
+            refreshVotingDataPitanjaIOdgovori(Convert.ToInt16(s1), txtSelectedIndex.Text); // 1 = Pitanje
+            //refreshVotingDataPitanjaIOdgovori(2); // 2 = Odgovor
            
             if (s1 == "1")
             {
                 txtSelectedType.Text = s1;
-                btnPitanje.Text = "Postavi Odgovor";
+                btnPitanje.Text = "Odgovori";
                 
             }
             else
             {
-                txtSelectedIndex.Text = "";                
+                btnPitanje.Text = "Postavi pitanje";
+                txtSelectedIndex.Text = "";
+               
             }
 
             btnUndo.Enabled = false;
@@ -283,9 +322,10 @@ namespace KMWeb
                         cmd.Parameters.AddWithValue("@IdKorisnika", Convert.ToInt32(Session["UserId"]));
                         connection.Open();
                         cmd.ExecuteNonQuery();
-
+                        connection.Close();
 
                         MessageBox.Show("Pitanje Uspješno ocjenjeno", "Important Message");
+                        refreshVotingDataPitanjaIOdgovori(1, txtSelectedIndex.Text);
 
                     }
                     catch (Exception ex) { MessageBox.Show("Pitanje Nije Uspješno ocjenjeno! Već ste ocjenili pitanje", "Important Message"); }
@@ -305,9 +345,10 @@ namespace KMWeb
                         cmd.Parameters.AddWithValue("@IdKorisnik", Convert.ToInt32(Session["UserId"]));
                         connection.Open();
                         cmd.ExecuteNonQuery();
-
+                        connection.Close();
                         MessageBox.Show("Odgovor Uspješno ocjenjen", "Important Message");
                         txtSelectedIndex.Text = "";
+                        refreshVotingDataPitanjaIOdgovori(2, txtTempOdgovor.Text);
 
                     }
                     catch (Exception ex) { MessageBox.Show("Odgovor Nije Uspješno ocjenjeno! Već ste ocjenili članak", "Important Message"); }
@@ -317,6 +358,7 @@ namespace KMWeb
                 btnVote.Enabled = false;
                 btnPitanje.Text = "Postavi pitanje";
                 DropDownListVote.Enabled = false;
+                
             }
             else
             {

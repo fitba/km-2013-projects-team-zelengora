@@ -46,27 +46,32 @@ namespace KMWeb.Administration
         protected void Button1_Click(object sender, EventArgs e)
         {
             // UNOS NOVOG CLANKA
-            try
+            if ((txtNaslov.Text != "") && (txtSadrzaj.Text != ""))
             {
-                SqlCommand cmd = new SqlCommand("INSERT INTO Clanci (Naslov, Sadrzaj, IdKategorija,IdKorisnik,DatumKreiranja) VALUES (@Naslov, @Sadrzaj, @IdKategorija, @IdKorisnik,@DatumKreiranja); SELECT SCOPE_IDENTITY();");
-                cmd.CommandType = CommandType.Text;
-                cmd.Connection = connection;
-                cmd.Parameters.AddWithValue("@Naslov", txtNaslov.Text);
-                cmd.Parameters.AddWithValue("@Sadrzaj", txtSadrzaj.Text);
-                cmd.Parameters.AddWithValue("@IdKategorija", DropDownCategory.SelectedValue);
-                cmd.Parameters.AddWithValue("@IdKorisnik", Convert.ToInt32(Session["UserId"]));
-                cmd.Parameters.AddWithValue("@DatumKreiranja", DateTime.Now.Date);
 
-                connection.Open();
-                //cmd.exExecuteNonQuery();
-                LastId = Convert.ToInt16(cmd.ExecuteScalar());
+                try
+                {
+                    SqlCommand cmd = new SqlCommand("INSERT INTO Clanci (Naslov, Sadrzaj, IdKategorija,IdKorisnik,DatumKreiranja) VALUES (@Naslov, @Sadrzaj, @IdKategorija, @IdKorisnik,@DatumKreiranja); SELECT SCOPE_IDENTITY();");
+                    cmd.CommandType = CommandType.Text;
+                    cmd.Connection = connection;
+                    cmd.Parameters.AddWithValue("@Naslov", txtNaslov.Text);
+                    cmd.Parameters.AddWithValue("@Sadrzaj", txtSadrzaj.Text);
+                    cmd.Parameters.AddWithValue("@IdKategorija", DropDownCategory.SelectedValue);
+                    cmd.Parameters.AddWithValue("@IdKorisnik", Convert.ToInt32(Session["UserId"]));
+                    cmd.Parameters.AddWithValue("@DatumKreiranja", DateTime.Now);
 
-                MessageBox.Show("Članak uspješno unesen","Important Message");
-                connection.Close();
-                insertKljucneRijeci();
+                    connection.Open();
+                    //cmd.exExecuteNonQuery();
+                    LastId = Convert.ToInt16(cmd.ExecuteScalar());
+
+                    MessageBox.Show("Članak uspješno unesen", "Important Message");
+                    connection.Close();
+                    insertKljucneRijeci();
+                }
+                catch (Exception ex) { MessageBox.Show("Članak nije unesen!", "Important Message"); }
             }
-            catch (Exception ex) { MessageBox.Show("Članak nije unesen!", "Important Message"); }
-
+            else
+            { MessageBox.Show("Unijeti text i Sadrzaj", "Important Message"); }
             ClearFields();
         }
 

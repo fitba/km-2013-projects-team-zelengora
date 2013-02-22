@@ -112,7 +112,7 @@
        <asp:BoundField DataField="IdType" HeaderText="TypeId"  Visible="true" />
        <asp:BoundField DataField="Type" HeaderText="Type" />
        <asp:BoundField DataField="Date" HeaderText="Datum" />
-       
+       <asp:BoundField DataField="Username" HeaderText="KorisnickoIme" />
      </Columns>
     </asp:GridView>
             </td>
@@ -128,6 +128,13 @@
                 <br />
                 <asp:Button ID="btnVote" runat="server" onclick="btnVote_Click" 
                     Text="Ocjeni Pit ili Odg" Enabled="False" Width="115px" />
+                <br />
+                <asp:Label ID="Label10" runat="server" Text="Ocjenjeno: "></asp:Label>
+                <asp:Label ID="lblBrojOcjenaPitanjaOdgovora" runat="server" Text="- "></asp:Label>
+                <asp:Label ID="Label11" runat="server" Text="Puta"></asp:Label>
+                <br />
+                <asp:Label ID="Label12" runat="server" Text="Prosjecna ocjena: "></asp:Label>
+                <asp:Label ID="lblProsjecnaOcjena" runat="server" Text="-"></asp:Label>
             </td>
             <td>
                 &nbsp;</td>
