@@ -7,90 +7,108 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace KMWeb {
+namespace KMWeb.Administration {
     
     
-    public partial class _Default {
+    public partial class UserAdministration {
         
         /// <summary>
-        /// Label2 control.
+        /// gvKorisnici control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.Label Label2;
+        protected global::System.Web.UI.WebControls.GridView gvKorisnici;
         
         /// <summary>
-        /// txtSearchBox control.
+        /// lblGrupaKorisnika control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.TextBox txtSearchBox;
+        protected global::System.Web.UI.WebControls.Label lblGrupaKorisnika;
         
         /// <summary>
-        /// btnSearchBox control.
+        /// DropDownListKorisnici control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.Button btnSearchBox;
+        protected global::System.Web.UI.WebControls.DropDownList DropDownListKorisnici;
         
         /// <summary>
-        /// HyperLinkKM control.
+        /// Label3 control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.HyperLink HyperLinkKM;
+        protected global::System.Web.UI.WebControls.Label Label3;
         
         /// <summary>
-        /// HyperLinkWEBP control.
+        /// txtImeKorisnika control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.HyperLink HyperLinkWEBP;
+        protected global::System.Web.UI.WebControls.TextBox txtImeKorisnika;
         
         /// <summary>
-        /// HyperLinkStatistika control.
+        /// Label4 control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.HyperLink HyperLinkStatistika;
+        protected global::System.Web.UI.WebControls.Label Label4;
         
         /// <summary>
-        /// HyperLinkNoCat control.
+        /// txtPrezimeKorisnika control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.HyperLink HyperLinkNoCat;
+        protected global::System.Web.UI.WebControls.TextBox txtPrezimeKorisnika;
         
         /// <summary>
-        /// Button2 control.
+        /// Label5 control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.Button Button2;
+        protected global::System.Web.UI.WebControls.Label Label5;
         
         /// <summary>
-        /// Button1 control.
+        /// txtKorisnickoIme control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.Button Button1;
+        protected global::System.Web.UI.WebControls.TextBox txtKorisnickoIme;
+        
+        /// <summary>
+        /// txtIdKorisnika control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.TextBox txtIdKorisnika;
+        
+        /// <summary>
+        /// txtSpremi control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Button txtSpremi;
     }
 }

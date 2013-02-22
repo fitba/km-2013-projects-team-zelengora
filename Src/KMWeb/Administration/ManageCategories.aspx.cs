@@ -26,23 +26,83 @@ namespace KMWeb.Administration
                 Response.Redirect("~/Account/Login.aspx");
             }
         }
-
-        
+ 
         private void clear()
         {
             txtNazivKategorije.Text = "";
             txtOpisKategorije.Text = "";
-
         }
+        protected void UpdateKorisniciKategorijeClanaka(int IdKategorija)
+        {
+            int _IdKategorija = IdKategorija;
+            DataSet ds = new DataSet();
+
+            SqlCommand cmdKat = new SqlCommand("Select Id from Korisnici", connection);
+            SqlDataAdapter da = new SqlDataAdapter(cmdKat);
+            DataTable dataTable = new DataTable();
+            da.Fill(dataTable);
+            da.Fill(ds, "Kategorije");
+            connection.Close();
+
+            // Za svakog korisnika inicijalizirati FALSE kad kreiraram novu kategoriju
+            for (int i = 0; i < ds.Tables[0].Rows.Count; i++)
+            {
+                int UserId = (int)ds.Tables[0].Rows[i]["Id"];
+                try
+                {
+                    SqlCommand cmd = new SqlCommand("Insert into KorisniciKategorijeClanaka(IdKorisnik,IdKategorijaClanaka,Preferira) VALUES (@IdKorisnik,@IdKategorijaClanaka,@Preferira)");
+                    cmd.CommandType = CommandType.Text;
+                    cmd.Connection = connection;
+                    cmd.Parameters.AddWithValue("@IdKorisnik", UserId);
+                    cmd.Parameters.AddWithValue("@IdKategorijaClanaka", _IdKategorija);
+                    cmd.Parameters.AddWithValue("@Preferira", false);
+
+                    connection.Open();
+                    cmd.ExecuteNonQuery();
+                    connection.Close();
+                }
+                catch (Exception ex) { }
+            }
+        }
+
 
         protected void btnNovaKategorija_Click(object sender, EventArgs e)
         {
-            if (txtNazivKategorije.Text != "")
+            SqlParameter Kategorija;
+            string kat="";
+            int IdKategorije=0;
+            SqlCommand cmd;
+            SqlParameter userNameParam;
+            if (txtNazivKategorije.Text != "") // Polje naziv kategorije mora biti popunjeno
             {
+                //Provjeravam da li ime kategorije vec postoji
 
                 try
                 {
-                    SqlCommand cmd = new SqlCommand("Insert into KategorijeClanaka(NazivKategorije,OpisKategorije,DatumKreiranja) VALUES (@NazivKategorije,@OpisKategorije,@DatumKreiranja)");
+                    connection.Open();
+                    cmd = new SqlCommand("Select Id, NazivKategorije From KategorijeClanaka Where " + // Da li korisnik e postoji
+                                   "NazivKategorije = @NazivKategorije", connection);
+                    SqlDataAdapter da = new SqlDataAdapter(cmd);
+                    userNameParam = cmd.Parameters.Add("@NazivKategorije", SqlDbType.VarChar, 25 /* max length of field */ );
+                    userNameParam.Value = txtNazivKategorije.Text;
+                    SqlDataAdapter saKat = new SqlDataAdapter(cmd);
+                    SqlDataReader readerKat = cmd.ExecuteReader();
+
+                    while (readerKat.Read())
+                    {
+                        kat = readerKat["NazivKategorije"].ToString();
+                    }
+                    readerKat.Close();
+                    connection.Close();
+                }
+                catch (Exception ex) { }
+
+               if (kat=="")
+               {
+            
+                try
+                {
+                    cmd = new SqlCommand("Insert into KategorijeClanaka(NazivKategorije,OpisKategorije,DatumKreiranja) VALUES (@NazivKategorije,@OpisKategorije,@DatumKreiranja)");
                     cmd.CommandType = CommandType.Text;
                     cmd.Connection = connection;
                     
@@ -51,12 +111,30 @@ namespace KMWeb.Administration
                     cmd.Parameters.AddWithValue("@DatumKreiranja", DateTime.Today);
                     connection.Open();
                     cmd.ExecuteNonQuery();
-
-
+                      
                     MessageBox.Show("Kategorija unesena !", "Important Message");
 
+                    cmd = new SqlCommand("Select Id,NazivKategorije From KategorijeClanaka Where " + // Spremam u SESSION zadnjeg registrovanog korisnika i idem na pocetnu stranicu ili detalje o korisniku
+                              "NazivKategorije = @NazivKategorije", connection);
+                    SqlDataAdapter da1 = new SqlDataAdapter(cmd);
+                    Kategorija = cmd.Parameters.Add("@NazivKategorije", SqlDbType.VarChar, 25 /* max length of field */ );
+                    Kategorija.Value = txtNazivKategorije.Text;
+
+                    SqlDataReader reader = cmd.ExecuteReader();
+                    
+                    while (reader.Read())
+                    {
+                        IdKategorije = (int) reader["Id"];     
+                    }
+                    reader.Close();
+                    
+                    //Azuriram tabelu preferensi
+                    if (IdKategorije!=0)
+                       UpdateKorisniciKategorijeClanaka(IdKategorije);
                 }
                 catch (Exception ex) { MessageBox.Show("Kategorija nije unesena !", "Important Message"); }
+               }
+               else { MessageBox.Show("Kategorija vec postoji !", "Important Message"); clear(); }
             }
             else MessageBox.Show("Popuniti polja", "Important Message"); 
             clear();

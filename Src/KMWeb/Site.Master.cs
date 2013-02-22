@@ -72,5 +72,15 @@ namespace KMWeb
             int CategoryId = (int)gvKategorije.DataKeys[gvKategorije.SelectedIndex].Value;
             Response.Redirect("~/CategoryView.aspx?CategoryId=" + CategoryId);
         }
+
+        protected void btnPodaciOKorisniku_Click(object sender, EventArgs e)
+        {
+            Response.Redirect("~/Administration/UserDetails.aspx");
+        }
+
+        protected void LinkButton3_Click(object sender, EventArgs e)
+        {
+            Response.Redirect("~/Administration/UserAdministration.aspx");
+        }
     }
 }

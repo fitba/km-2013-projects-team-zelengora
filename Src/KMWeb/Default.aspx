@@ -70,7 +70,9 @@
             <td>
                 &nbsp;</td>
             <td>
-                &nbsp;</td>
+                <asp:Button ID="Button2" runat="server" onclick="Button2_Click" Text="Button" 
+                    Visible="False" />
+            </td>
             <td>
                 <asp:Button ID="Button1" runat="server" onclick="Button1_Click" 
                     Text="Synchro db-&gt;solr" />

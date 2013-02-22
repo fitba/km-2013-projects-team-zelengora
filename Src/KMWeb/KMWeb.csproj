@@ -13,7 +13,7 @@
     <RootNamespace>KMWeb</RootNamespace>
     <AssemblyName>KMWeb</AssemblyName>
     <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
-    <UseIISExpress>false</UseIISExpress>
+    <UseIISExpress>true</UseIISExpress>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -89,6 +89,8 @@
     <Content Include="Account\ChangePasswordSuccess.aspx" />
     <Content Include="Account\Login.aspx" />
     <Content Include="Account\Register.aspx" />
+    <Content Include="Administration\UserAdministration.aspx" />
+    <Content Include="Administration\UserDetails.aspx" />
     <Content Include="Administration\AdministratorHome.aspx" />
     <Content Include="Administration\CompareRevision.aspx" />
     <Content Include="Administration\ManageCategories.aspx" />
@@ -153,6 +155,20 @@
     </Compile>
     <Compile Include="Account\Register.aspx.designer.cs">
       <DependentUpon>Register.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Administration\UserAdministration.aspx.cs">
+      <DependentUpon>UserAdministration.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Administration\UserAdministration.aspx.designer.cs">
+      <DependentUpon>UserAdministration.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Administration\UserDetails.aspx.cs">
+      <DependentUpon>UserDetails.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Administration\UserDetails.aspx.designer.cs">
+      <DependentUpon>UserDetails.aspx</DependentUpon>
     </Compile>
     <Compile Include="Administration\AdministratorHome.aspx.cs">
       <DependentUpon>AdministratorHome.aspx</DependentUpon>
@@ -245,11 +261,11 @@
     <VisualStudio>
       <FlavorProperties GUID="{349c5851-65df-11da-9384-00065b846f21}">
         <WebProjectProperties>
-          <UseIIS>False</UseIIS>
+          <UseIIS>True</UseIIS>
           <AutoAssignPort>True</AutoAssignPort>
           <DevelopmentServerPort>51615</DevelopmentServerPort>
           <DevelopmentServerVPath>/</DevelopmentServerVPath>
-          <IISUrl>http://localhost:51615/</IISUrl>
+          <IISUrl>http://localhost:51615/KMWeb</IISUrl>
           <NTLMAuthentication>False</NTLMAuthentication>
           <UseCustomServer>False</UseCustomServer>
           <CustomServerUrl>

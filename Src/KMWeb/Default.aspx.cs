@@ -227,5 +227,10 @@ namespace KMWeb
             objStream = wrGETURL.GetResponse().GetResponseStream();
          
         }
+
+        protected void Button2_Click(object sender, EventArgs e)
+        {
+            
+        }
     }
 }

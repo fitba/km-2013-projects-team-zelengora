@@ -17,6 +17,38 @@ namespace KMWeb.Account
         static string connStr = ConfigurationManager.ConnectionStrings["ApplicationServices"].ConnectionString;
         SqlConnection connection = new SqlConnection(connStr);
 
+        protected void UpdateKorisniciKategorijeClanaka(int UserId)
+        {
+            DataSet ds = new DataSet();
+
+            SqlCommand cmdKat = new SqlCommand("Select Id,NazivKategorije from KategorijeClanaka", connection);
+            SqlDataAdapter da = new SqlDataAdapter(cmdKat);
+            DataTable dataTable = new DataTable();
+            da.Fill(dataTable);
+            da.Fill(ds, "Kategorije");
+            connection.Close(); 
+
+            // Za svaku kategoriju inicijalizirati FALSE kad kreiraram novog korisnika
+            for (int i = 0; i < ds.Tables[0].Rows.Count; i++)
+            {
+                int IdKategorije = (int) ds.Tables[0].Rows[i]["Id"];
+                try
+                {
+                    SqlCommand cmd = new SqlCommand("Insert into KorisniciKategorijeClanaka(IdKorisnik,IdKategorijaClanaka,Preferira) VALUES (@IdKorisnik,@IdKategorijaClanaka,@Preferira)");
+                    cmd.CommandType = CommandType.Text;
+                    cmd.Connection = connection;
+                    cmd.Parameters.AddWithValue("@IdKorisnik", UserId);
+                    cmd.Parameters.AddWithValue("@IdKategorijaClanaka", IdKategorije);
+                    cmd.Parameters.AddWithValue("@Preferira", false);
+
+                    connection.Open();
+                    cmd.ExecuteNonQuery();
+                    connection.Close();
+                }
+                catch (Exception ex) { }
+            }
+        }
+
         protected int insertUser(string username, string password, string ime, string prezime)
         {
             int IdUser=0;
@@ -99,9 +131,13 @@ namespace KMWeb.Account
                             Session["korisnickoIme"] = korisnicko;
                             Session["UserId"] = IdUser;
                         }
+                        readerKorisnik1.Close();
+
+                        //NAKON KREIRANJA NOVOG KORISNIKA Forsiraj na false sve preferirane kategorije
+                        UpdateKorisniciKategorijeClanaka(IdUser); 
 
                         connection.Close();
-                        Response.Redirect("~/Default.aspx");
+                        Response.Redirect("~/Administration/UserDetails.aspx");
                     }
                     catch (Exception ex) { }
                 }

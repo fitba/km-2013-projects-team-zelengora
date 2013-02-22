@@ -16,7 +16,7 @@
         <div class="header">
             <div class="title">
                 <h1>
-                    Projekat iz predmeta Upravljanje znanjem</h1>
+                    Wiki fit - zelengora</h1>
             </div>
             <div class="loginDisplay">
             [<a href="~/Account/Login.aspx" ID="HeadLoginStatus" runat="server">Log In</a> ]<asp:LinkButton 
@@ -50,6 +50,12 @@
 &nbsp;<asp:LinkButton ID="LinkButton1" runat="server" onclick="LinkButton1_Click1">Novi Članak</asp:LinkButton>
                &nbsp;<asp:LinkButton ID="LinkButton2" runat="server" 
                     onclick="LinkButton2_Click">Nova kategorija</asp:LinkButton>
+                <asp:LinkButton ID="LinkButton3" runat="server" onclick="LinkButton3_Click">User Administration</asp:LinkButton>
+                <br />
+                <br />
+&nbsp;<asp:Label ID="Label2" runat="server" Text="Podaci o korisniku: "></asp:Label>
+                <asp:LinkButton ID="btnPodaciOKorisniku" runat="server" 
+                    onclick="btnPodaciOKorisniku_Click">Detalji</asp:LinkButton>
                 <br />
                 <br />
                 <asp:GridView ID="gvKategorije" runat="server" AutoGenerateSelectButton="True" 
