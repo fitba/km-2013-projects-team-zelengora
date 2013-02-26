@@ -58,6 +58,12 @@ namespace KMWeb
             [SolrField("articletext")]
             public string articleText { get; internal set; }
 
+            [SolrField("question")]
+            public string question { get; internal set; }
+
+            [SolrField("answer")]
+            public string answer { get; internal set; }
+
         }
 
 
@@ -231,6 +237,24 @@ namespace KMWeb
         protected void Button2_Click(object sender, EventArgs e)
         {
             
+        }
+
+        protected void Button3_Click(object sender, EventArgs e)
+        {
+            var solr = ServiceLocator.Current.GetInstance<ISolrOperations<Article>>();
+
+            var article = solr.Delete(new SolrQuery("*:*"));
+            solr.Commit();
+           /* string sURL;
+            sURL = "http://localhost:8983/solr/update?commit=true -d  '<delete><query>*:*</query></delete>'";
+
+            WebRequest wrGETURL;
+            wrGETURL = WebRequest.Create(sURL);
+
+            Stream objStream;
+            objStream = wrGETURL.GetResponse().GetResponseStream();*/
+             
+
         }
     }
 }

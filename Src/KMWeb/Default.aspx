@@ -76,6 +76,8 @@
             <td>
                 <asp:Button ID="Button1" runat="server" onclick="Button1_Click" 
                     Text="Synchro db-&gt;solr" />
+                <asp:Button ID="Button3" runat="server" onclick="Button3_Click" 
+                    Text="Delete solr index" />
             </td>
         </tr>
     </table>

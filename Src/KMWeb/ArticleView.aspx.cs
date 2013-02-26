@@ -22,33 +22,58 @@ namespace KMWeb
         {
            
             string Article = Request.QueryString["ArticleId"];
-
-            DataSet ds = new DataSet();
-            connection.Open();
-            SqlCommand cmd = new SqlCommand("SELECT Clanci.Id As Id, Clanci.Naslov AS Naslov, Clanci.Sadrzaj AS Sadrzaj, Clanci.DatumKreiranja AS DatumKreiranja, Korisnici.Id AS IdKorisnik, Korisnici.Ime, Korisnici.Prezime, Korisnici.KorisnickoIme" 
-                         +" FROM Clanci INNER JOIN Korisnici ON Clanci.IdKorisnik = Korisnici.Id WHERE Clanci.Id=" + Article, connection);
-            SqlDataAdapter da = new SqlDataAdapter(cmd);
-
-            refreshVotingData();
-
-
-            SqlDataReader reader = cmd.ExecuteReader();
-            if (reader.Read())
+            string _brPregleda = "0" ;
+            if (!IsPostBack)
             {
-                txtNaslov.Text = reader["Naslov"].ToString();
-                txtSadrzaj.Text = reader["Sadrzaj"].ToString();
-                txtDate.Text = reader["DatumKreiranja"].ToString();
-                lblAutor.Text = reader["Ime"].ToString() + " " + reader["Prezime"].ToString() + " -"; 
-                
-                reader.Close();
+                DataSet ds = new DataSet();
+                connection.Open();
+                SqlCommand cmd = new SqlCommand("SELECT Clanci.Id As Id, Clanci.Naslov AS Naslov, Clanci.Sadrzaj AS Sadrzaj, Clanci.Pregleda AS Pregleda, Clanci.DatumKreiranja AS DatumKreiranja, Korisnici.Id AS IdKorisnik, Korisnici.Ime, Korisnici.Prezime, Korisnici.KorisnickoIme"
+                             + " FROM Clanci INNER JOIN Korisnici ON Clanci.IdKorisnik = Korisnici.Id WHERE Clanci.Id=" + Article, connection);
+                SqlDataAdapter da = new SqlDataAdapter(cmd);
+
+                refreshVotingData();
+
+
+                SqlDataReader reader = cmd.ExecuteReader();
+                if (reader.Read())
+                {
+                    txtNaslov.Text = reader["Naslov"].ToString();
+                    txtSadrzaj.Text = reader["Sadrzaj"].ToString();
+                    txtDate.Text = reader["DatumKreiranja"].ToString();
+                    lblAutor.Text = reader["Ime"].ToString() + " " + reader["Prezime"].ToString() + " -";
+                    string d = reader["Pregleda"].ToString();
+                    if (reader["Pregleda"].ToString() != "")
+                        _brPregleda = reader["Pregleda"].ToString();
+                    else
+                        _brPregleda = "0";
+
+                    reader.Close();
+                    connection.Close(); updatePregledi(_brPregleda);
+                }
+
+                BindData(Convert.ToInt32(Article));
+                lblKljucneRijeci.Text = "";
+                prikaziKljucneRijeci();
                 connection.Close();
             }
 
-            BindData(Convert.ToInt32(Article));
-            lblKljucneRijeci.Text = "";
-            prikaziKljucneRijeci();
-            connection.Close();
+        }
 
+        protected void updatePregledi(string BrojPregleda)
+        {
+            string _brojPregleda = BrojPregleda;
+            string Article = Request.QueryString["ArticleId"];
+            int i = Convert.ToInt32(_brojPregleda);
+            i++;
+            connection.Open();
+            try
+            {
+                SqlCommand cmd = new SqlCommand("UPDATE Clanci SET Clanci.Pregleda=" + i + " WHERE Clanci.Id=" + Article, connection);
+
+                cmd.ExecuteNonQuery();
+            }
+            catch (Exception ex) { }
+            finally { connection.Close(); }
         }
 
         private void prikaziKljucneRijeci()
@@ -77,7 +102,10 @@ namespace KMWeb
 
               
           }
-          catch (Exception ex) { MessageBox.Show("Greska!", "Important Message"); }
+          catch (Exception ex) {
+             // MessageBox.Show("Greska!", "Important Message");
+              ClientScript.RegisterStartupScript(typeof(Page), "myscript", "alert('Greska!');", true);
+          }
           finally { connection.Close(); }
 
         }
@@ -324,11 +352,15 @@ namespace KMWeb
                         cmd.ExecuteNonQuery();
                         connection.Close();
 
-                        MessageBox.Show("Pitanje Uspješno ocjenjeno", "Important Message");
+                        //MessageBox.Show("Pitanje Uspješno ocjenjeno", "Important Message");
+                        ClientScript.RegisterStartupScript(typeof(Page), "myscript", "alert('Pitanje Uspješno ocjenjeno');", true);
                         refreshVotingDataPitanjaIOdgovori(1, txtSelectedIndex.Text);
 
                     }
-                    catch (Exception ex) { MessageBox.Show("Pitanje Nije Uspješno ocjenjeno! Već ste ocjenili pitanje", "Important Message"); }
+                    catch (Exception ex) { 
+                       // MessageBox.Show("Pitanje Nije Uspješno ocjenjeno! Već ste ocjenili pitanje", "Important Message");
+                        ClientScript.RegisterStartupScript(typeof(Page), "myscript", "alert('Pitanje Nije Uspješno ocjenjeno! Već ste ocjenili pitanje');", true);
+                    }
                 }
 
                 // UNOS OCJENE ODGOVORA
@@ -346,12 +378,16 @@ namespace KMWeb
                         connection.Open();
                         cmd.ExecuteNonQuery();
                         connection.Close();
-                        MessageBox.Show("Odgovor Uspješno ocjenjen", "Important Message");
+                       // MessageBox.Show("Odgovor Uspješno ocjenjen", "Important Message");
+                        ClientScript.RegisterStartupScript(typeof(Page), "myscript", "alert('Odgovor Uspješno ocjenjen');", true);
                         txtSelectedIndex.Text = "";
                         refreshVotingDataPitanjaIOdgovori(2, txtTempOdgovor.Text);
 
                     }
-                    catch (Exception ex) { MessageBox.Show("Odgovor Nije Uspješno ocjenjeno! Već ste ocjenili članak", "Important Message"); }
+                    catch (Exception ex) { 
+                       // MessageBox.Show("Odgovor Nije Uspješno ocjenjeno! Već ste ocjenili članak", "Important Message");
+                        ClientScript.RegisterStartupScript(typeof(Page), "myscript", "alert('Odgovor Nije Uspješno ocjenjeno! Već ste ocjenili članak.');", true);
+                    }
                 }
 
                 txtSelectedIndex.Text = "";
@@ -362,7 +398,7 @@ namespace KMWeb
             }
             else
             {
-                MessageBox.Show("Logirajte se !");
+                ClientScript.RegisterStartupScript(typeof(Page), "myscript", "alert('Logirajte se !');", true);
                 //Response.Redirect("~/Account/Login.aspx");
             }
         }
@@ -393,14 +429,18 @@ namespace KMWeb
                     connection.Open();
                     cmd.ExecuteNonQuery();
 
-                    MessageBox.Show("Članka Uspješno ocjenjen", "Important Message");
+                   // MessageBox.Show("Članka Uspješno ocjenjen", "Important Message");
+                    ClientScript.RegisterStartupScript(typeof(Page), "myscript", "alert('Članak uspješno ocjenjen!');", true);
                     refreshVotingData();
                 }
-                catch (Exception ex) { MessageBox.Show("Članka Nije Uspješno ocjenjen! Već ste ocjenili članak", "Important Message"); }
+                catch (Exception ex) { 
+               //     MessageBox.Show("Članka Nije Uspješno ocjenjen! Već ste ocjenili članak", "Important Message");
+                    ClientScript.RegisterStartupScript(typeof(Page), "myscript", "alert('Članak Nije uspješno ocjenjen! Već ste ocjenili članak!');", true);
+                }
             }
             else
             {
-                MessageBox.Show("Logirajte se !");
+                ClientScript.RegisterStartupScript(typeof(Page), "myscript", "alert('Logirajte se !');", true);
                 //Response.Redirect("~/Account/Login.aspx");
             }
         }
@@ -431,15 +471,22 @@ namespace KMWeb
                             connection.Open();
                             cmd.ExecuteNonQuery();
 
-                            MessageBox.Show("Pitanje Uspješno uneseno", "Important Message");
+                            //MessageBox.Show("Pitanje Uspješno uneseno", "Important Message");
+                            ClientScript.RegisterStartupScript(typeof(Page), "myscript", "alert('Pitanje Uspješno uneseno!');", true);
                             txtSelectedIndex.Text = "";
                         }
-                        catch (Exception ex) { MessageBox.Show("Pitanje NIJE uspješno unesenok", "Important Message"); }
+                        catch (Exception ex) { 
+                          //  MessageBox.Show("Pitanje NIJE uspješno unesenok", "Important Message");
+                            ClientScript.RegisterStartupScript(typeof(Page), "myscript", "alert('Pitanje NIJE uspješno uneseno!');", true);
+                        }
                         txtPitanje.Text = "";
                         refreshVotingData();
                         BindData(Convert.ToInt32(Article));
                     }
-                    else { MessageBox.Show("Unijeti pitanje", "Important Message"); }
+                    else { 
+                        //MessageBox.Show("Unijeti pitanje", "Important Message");
+                        ClientScript.RegisterStartupScript(typeof(Page), "myscript", "alert('Unijeti pitanje!');", true);
+                    }
                 }
                
             
@@ -461,25 +508,33 @@ namespace KMWeb
                             connection.Open();
                             cmd.ExecuteNonQuery();
 
-                            MessageBox.Show("Odgovor Uspješno unesen", "Important Message");
+                           // MessageBox.Show("Odgovor Uspješno unesen", "Important Message");
+                            ClientScript.RegisterStartupScript(typeof(Page), "myscript", "alert('Odgovor Uspješno unesen!');", true);
+
                             txtSelectedIndex.Text = "";
                             DropDownListVote.Enabled = false;
                             btnVote.Enabled = false;
                         }
-                        catch (Exception ex) { MessageBox.Show("Odgovor NIJE uspješno unesen", "Important Message"); }
+                        catch (Exception ex) { 
+                            //MessageBox.Show("Odgovor NIJE uspješno unesen", "Important Message");
+                            ClientScript.RegisterStartupScript(typeof(Page), "myscript", "alert('Odgovor NIJE uspješno unesen!');", true);
+                        }
                         txtPitanje.Text = "";
                         refreshVotingData();
                         btnPitanje.Text = "Postavi Pitanje";
                         BindData(Convert.ToInt32(Article));
                     }
-                    else { MessageBox.Show("Unijeti odgovor", "Important Message"); }
+                    else { 
+                        //MessageBox.Show("Unijeti odgovor", "Important Message");
+                    ClientScript.RegisterStartupScript(typeof(Page), "myscript", "alert('Unijeti odgovor!');", true);
+                    }
                 
                 
             }
             }
             else
                 {
-                    MessageBox.Show("Logirajte se !");
+                    ClientScript.RegisterStartupScript(typeof(Page), "myscript", "alert('Logirajte se !');", true);
                     //Response.Redirect("~/Account/Login.aspx");
                 }
 

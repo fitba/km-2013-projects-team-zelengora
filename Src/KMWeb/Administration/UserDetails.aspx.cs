@@ -85,8 +85,7 @@ namespace KMWeb.Account
                 }
             }else
             {
-                MessageBox.Show("Logirajte se !");
-                Response.Redirect("~/Account/Login.aspx");
+                ClientScript.RegisterStartupScript(typeof(Page), "myscript", "alert('Logirajte se !');window.location.href = '../Account/Login.aspx'", true);
             }
         }
 
@@ -134,9 +133,11 @@ namespace KMWeb.Account
                 catch (Exception ex) { error = 1; }              
             }
             if (error == 1)
-                MessageBox.Show("Greška: Podaci NISU ažurirani", "Important Message");
+                //MessageBox.Show("Greška: Podaci NISU ažurirani", "Important Message");
+                ClientScript.RegisterStartupScript(typeof(Page), "myscript", "alert('Greška: Podaci NISU ažurirani');", true);
             else
-                MessageBox.Show("Podaci ažurirani", "Important Message");
+                //MessageBox.Show("Podaci ažurirani", "Important Message");
+            ClientScript.RegisterStartupScript(typeof(Page), "myscript", "alert('Podaci ažurirani');", true);
         }
         }
 }

@@ -74,7 +74,8 @@ namespace KMWeb.Account
 
             if (UserId == 0)
             {
-                MessageBox.Show("Nemate pravo pristupa!");
+                //MessageBox.Show("Nemate pravo pristupa!");
+                ClientScript.RegisterStartupScript(typeof(Page), "myscript", "alert('Nemate pravo pristupa!');", true);
 
             }
             else

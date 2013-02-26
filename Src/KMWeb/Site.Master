@@ -7,7 +7,12 @@
     <link href="~/Styles/Site.css" rel="stylesheet" type="text/css" />
     <asp:ContentPlaceHolder ID="HeadContent" runat="server">
     </asp:ContentPlaceHolder>
-  
+  <script type="text/javascript" language="javascript">
+      function JsMethod() {
+          alert('called without refresh');
+          return false;
+      }
+  </script>
 
 </head>
 <body>

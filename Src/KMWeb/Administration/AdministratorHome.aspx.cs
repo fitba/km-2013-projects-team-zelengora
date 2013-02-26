@@ -94,8 +94,10 @@ namespace KMWeb.Administration
             }
             else
             {
-                MessageBox.Show("Logirajte se !");
-                Response.Redirect("~/Account/Login.aspx");
+                ClientScript.RegisterStartupScript(typeof(Page),"myscript","alert('Logirajte se !');window.location.href = '../Account/Login.aspx'", true);
+                
+               
+                //Response.Redirect("~/Account/Login.aspx");
             }
 
         }

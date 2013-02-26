@@ -46,8 +46,7 @@ namespace KMWeb.Administration
             LoadPrijedlog();
             }
             else{
-               MessageBox.Show("Logirajte se !");
-               Response.Redirect("~/Account/Login.aspx");
+                ClientScript.RegisterStartupScript(typeof(Page), "myscript", "alert('Logirajte se !');window.location.href = '../Account/Login.aspx'", true);
             }
 
         }
@@ -78,11 +77,16 @@ namespace KMWeb.Administration
                 cmd.ExecuteNonQuery();
                // LastId = Convert.ToInt16(cmd.ExecuteScalar());
 
-                MessageBox.Show("Prijedlog unesen. Vlasnik članka će razmotriti prijedlog izmjena.", "Important Message");
+              //  MessageBox.Show("Prijedlog unesen. Vlasnik članka će razmotriti prijedlog izmjena.", "Important Message");
+                ClientScript.RegisterStartupScript(typeof(Page), "myscript", "alert('Prijedlog unesen. Vlasnik članka će razmotriti prijedlog izmjena.');", true);
+                
                 connection.Close();
                 
             }
-            catch (Exception ex) { MessageBox.Show("GREŠKA, Prijedlog NIJE unesen!", "Important Message"); }
+            catch (Exception ex) { 
+                //MessageBox.Show("GREŠKA, Prijedlog NIJE unesen!", "Important Message");
+                ClientScript.RegisterStartupScript(typeof(Page), "myscript", "alert('GREŠKA, Prijedlog NIJE unesen!');", true);
+            }
 
            // ClearFields();
         }

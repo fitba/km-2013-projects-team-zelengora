@@ -38,8 +38,7 @@ namespace KMWeb.Administration
             string username = (string)Session["korisnickoIme"];
             if (username == null)
             {
-                MessageBox.Show("Logirajte se !");
-                Response.Redirect("~/Account/Login.aspx");
+                ClientScript.RegisterStartupScript(typeof(Page), "myscript", "alert('Logirajte se !');window.location.href = '../Account/Login.aspx'", true);
             }
         }
 
@@ -64,14 +63,21 @@ namespace KMWeb.Administration
                     //cmd.exExecuteNonQuery();
                     LastId = Convert.ToInt16(cmd.ExecuteScalar());
 
-                    MessageBox.Show("Članak uspješno unesen", "Important Message");
+                    //MessageBox.Show("Članak uspješno unesen", "Important Message");
+                    ClientScript.RegisterStartupScript(typeof(Page), "myscript", "alert('Članak uspješno unesen!');", true);
                     connection.Close();
                     insertKljucneRijeci();
                 }
-                catch (Exception ex) { MessageBox.Show("Članak nije unesen!", "Important Message"); }
+                catch (Exception ex) { 
+                    //MessageBox.Show("Članak nije unesen!", "Important Message");
+                    ClientScript.RegisterStartupScript(typeof(Page), "myscript", "alert('Članak nije unesen!');", true);
+                }
             }
             else
-            { MessageBox.Show("Unijeti text i Sadrzaj", "Important Message"); }
+            { 
+                //MessageBox.Show("Unijeti text i Sadrzaj", "Important Message");
+                ClientScript.RegisterStartupScript(typeof(Page), "myscript", "alert('Unijeti text i Sadrzaj!');", true);
+            }
             ClearFields();
         }
 
@@ -193,9 +199,14 @@ namespace KMWeb.Administration
                 connection.Open();
                 cmd.ExecuteNonQuery();
 
-                MessageBox.Show("Kljucne rijeci unesene.", "Important Message");
+               // MessageBox.Show("Kljucne rijeci unesene.", "Important Message");
+                ClientScript.RegisterStartupScript(typeof(Page), "myscript", "alert('Kljucne rijeci unesene.');", true);
+                //ClientScript.RegisterStartupScript(typeof(Page), "myscript", "alert('Članak uspješno unesen!');", true);
             }
-            catch (Exception ex) { MessageBox.Show("Kljucne rijeci NISU unesene.", "Important Message"); }
+            catch (Exception ex) { 
+                //MessageBox.Show("Kljucne rijeci NISU unesene.", "Important Message");
+                ClientScript.RegisterStartupScript(typeof(Page), "myscript", "alert('Kljucne rijeci NISU unesene.');", true);
+            }
             finally { connection.Close(); }
         }
 

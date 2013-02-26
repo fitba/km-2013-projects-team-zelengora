@@ -78,7 +78,7 @@
                 <asp:Label ID="Label6" runat="server" Text="Članak kreirao:"></asp:Label>
 &nbsp;<asp:Label ID="lblAutor" runat="server" Text="Label"></asp:Label>
                 <asp:Label ID="Label2" runat="server" Text="Datum kreiranja:"></asp:Label>
-<asp:TextBox ID="txtDate" runat="server" Enabled="False" Width="105px"></asp:TextBox>
+<asp:TextBox ID="txtDate" runat="server" Enabled="False" Width="149px"></asp:TextBox>
             </td>
             <td>
                 &nbsp;</td>

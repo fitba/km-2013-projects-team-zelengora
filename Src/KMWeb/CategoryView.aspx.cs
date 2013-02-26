@@ -21,27 +21,31 @@ namespace KMWeb
             string strSel;
             string Category = Request.QueryString["CategoryId"];
 
+            DataSet dsCat = new DataSet();
+            DataTable dtCat = new DataTable();
+           
+            SqlDataAdapter daCat = new SqlDataAdapter();
+            daCat.SelectCommand = new SqlCommand("Select Id,NazivKategorije from KategorijeClanaka where Id = " + Category, connection);
+            daCat.Fill(dsCat, "KategorijeClanaka");
+            dtCat = dsCat.Tables["KategorijeClanaka"];
 
-            /*if (aaa != "" && aaa != null)
+            foreach (DataRow dr in dtCat.Rows)
             {
-                // Response.Write("<script>alert('" + aaa + "');</script>");
-                strSel = "Select * from Clanci where IdKategorija=3";
-
-            }
-            else
-            {
-                strSel = "Select * from inout";
+               lblKategorija.Text = dr["NazivKategorije"].ToString();
             }
 
-            Response.Write(strSel);*/
-            //string strProvider = "Server=(local);DataBase=AIS20060712101417;UID=sa;PWD=";
+           
+            //lblKategorija.Text = dsCat.Tables[0].Rows[1]["NazivKategorije"].ToString();
+            
+            connection.Close();
+           
             DataSet ds = new DataSet();
            // SqlConnection MyConn = new SqlConnection(strProvider);
             connection.Open();
             //SqlDataAdapter MyAdapter = new SqlDataAdapter(strSel, connection);
            // MyAdapter.Fill(ds, "inout");
 
-            SqlCommand cmd = new SqlCommand("Select Id,Naslov,DatumKreiranja from Clanci where IdKategorija="+Category + "Order by DatumKreiranja DESC", connection);
+            SqlCommand cmd = new SqlCommand("Select Id,Naslov,DatumKreiranja,Pregleda from Clanci where IdKategorija="+Category + "Order by DatumKreiranja DESC", connection);
 
             SqlDataAdapter da = new SqlDataAdapter(cmd);
 

@@ -141,10 +141,14 @@ namespace KMWeb.Account
                     }
                     catch (Exception ex) { }
                 }
-                else { MessageBox.Show("Korisničko ime zauzeto"); }
+                else { //MessageBox.Show("Korisničko ime zauzeto"); 
+                    ClientScript.RegisterStartupScript(typeof(Page), "myscript", "alert('Korisničko ime zauzeto!');", true); }
             }
             else
-            { MessageBox.Show("Greska. Ispravno unijeti podatke. Provjeriti Unos Lozinke"); }//Kraj IF
+            { 
+                //MessageBox.Show("Greska. Ispravno unijeti podatke. Provjeriti Unos Lozinke");
+            ClientScript.RegisterStartupScript(typeof(Page), "myscript", "alert('Greska. Ispravno unijeti podatke. Provjeriti Unos Lozinke');", true);
+            }//Kraj IF
             return IdUser;
         }
        

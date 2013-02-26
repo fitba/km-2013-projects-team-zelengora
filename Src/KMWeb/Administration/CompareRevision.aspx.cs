@@ -92,12 +92,15 @@ namespace KMWeb.Administration
             cmd.Parameters.AddWithValue("@Naslov", txtPrijedlogNaslova.Text);
             cmd.Parameters.AddWithValue("@Sadrzaj", txtPrijedlogSadrzaja.Text );
             cmd.ExecuteNonQuery();
-            MessageBox.Show("Izmjena naslova i sadrzaja uspjela!", "Important Message");
+            //MessageBox.Show("Izmjena naslova i sadrzaja uspjela!", "Important Message");
+            ClientScript.RegisterStartupScript(typeof(Page), "myscript", "alert('Izmjena naslova i sadrzaja uspjela!');", true);
             connection.Close();
             setStatusRevizije(2);
             }
-            catch (Exception ex) { MessageBox.Show("Izmjena naslova i sadrzaja nije uspjela!", "Important Message");
-              connection.Close();
+            catch (Exception ex) { 
+                //MessageBox.Show("Izmjena naslova i sadrzaja nije uspjela!", "Important Message");
+                ClientScript.RegisterStartupScript(typeof(Page), "myscript", "alert('Izmjena naslova i sadrzaja nije uspjela!');", true);
+                connection.Close();
             }
             
             
@@ -117,10 +120,12 @@ namespace KMWeb.Administration
                 cmd.CommandType = CommandType.Text;
                 cmd.Connection = connection;
                 cmd.ExecuteNonQuery();
-                MessageBox.Show("Status prijedloga izmjene ažuriran!", "Important Message");
+                //MessageBox.Show("Status prijedloga izmjene ažuriran!", "Important Message");
+                ClientScript.RegisterStartupScript(typeof(Page), "myscript", "alert('Status prijedloga izmjene ažuriran!');", true);
             }
-            catch (Exception ex) { MessageBox.Show("Status prijedloga izmjene nije ažuriran!", "Important Message");
-            
+            catch (Exception ex) { 
+                //MessageBox.Show("Status prijedloga izmjene nije ažuriran!", "Important Message");
+                ClientScript.RegisterStartupScript(typeof(Page), "myscript", "alert('Status prijedloga izmjene nije ažuriran!');", true);
             }
             
            
@@ -153,11 +158,15 @@ namespace KMWeb.Administration
                 cmd.Connection = connection;
                 cmd.Parameters.AddWithValue("@Naslov", txtPrijedlogNaslova.Text);
                 cmd.ExecuteNonQuery();
-                MessageBox.Show("Izmjena naslova uspjela!", "Important Message");
+                //MessageBox.Show("Izmjena naslova uspjela!", "Important Message");
+                ClientScript.RegisterStartupScript(typeof(Page), "myscript", "alert('Izmjena naslova uspjela!');", true);
                 connection.Close();
                 setStatusRevizije(4);
             }
-            catch (Exception ex) { MessageBox.Show("Izmjena naslova nije uspjela!", "Important Message"); connection.Close(); }
+            catch (Exception ex) { 
+                //MessageBox.Show("Izmjena naslova nije uspjela!", "Important Message"); connection.Close();
+            ClientScript.RegisterStartupScript(typeof(Page), "myscript", "alert('Izmjena naslova nije uspjela!');", true);
+            }
             
         }
 
@@ -177,11 +186,16 @@ namespace KMWeb.Administration
                 cmd.Connection = connection;
                 cmd.Parameters.AddWithValue("@Sadrzaj", txtPrijedlogSadrzaja.Text);
                 cmd.ExecuteNonQuery();
-                MessageBox.Show("Izmjena sadrzaja uspjela!", "Important Message");
+                //MessageBox.Show("Izmjena sadrzaja uspjela!", "Important Message");
+                ClientScript.RegisterStartupScript(typeof(Page), "myscript", "alert('Izmjena sadrzaja uspjela!');", true);
                 connection.Close();
                 setStatusRevizije(4);
             }
-            catch (Exception ex) { MessageBox.Show("Izmjena sadrzaja nije uspjela!", "Important Message"); connection.Close(); }
+            catch (Exception ex) { 
+                
+               // MessageBox.Show("Izmjena sadrzaja nije uspjela!", "Important Message"); connection.Close();
+                ClientScript.RegisterStartupScript(typeof(Page), "myscript", "alert('Izmjena sadrzaja nije uspjela!');", true);
+            }
             
         }
 

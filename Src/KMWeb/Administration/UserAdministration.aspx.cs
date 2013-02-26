@@ -55,8 +55,7 @@ namespace KMWeb.Administration
              }
              else
              {
-                 MessageBox.Show("Logirajte se !");
-                 Response.Redirect("~/Account/Login.aspx");
+                 ClientScript.RegisterStartupScript(typeof(Page), "myscript", "alert('Logirajte se !');window.location.href = '../Account/Login.aspx'", true);
              }
         }
 
@@ -89,10 +88,14 @@ namespace KMWeb.Administration
                 cmd.Parameters.AddWithValue("@idGrupe", idGrupe);
                 connection.Open();
                 cmd.ExecuteNonQuery();
-                MessageBox.Show("Azuriranje izvrseno", "Important Message");
+                //MessageBox.Show("Azuriranje izvrseno", "Important Message");
+                ClientScript.RegisterStartupScript(typeof(Page), "myscript", "alert('Azuriranje izvrseno!');", true);
                 loadUsers();
             }
-            catch (Exception ex) { MessageBox.Show("Azuriranje NIJE izvrseno", "Important Message"); }
+            catch (Exception ex) { 
+                //MessageBox.Show("Azuriranje NIJE izvrseno", "Important Message");
+                ClientScript.RegisterStartupScript(typeof(Page), "myscript", "alert('Azuriranje NIJE izvrseno!');", true);
+            }
                 
 
 

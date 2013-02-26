@@ -22,8 +22,9 @@ namespace KMWeb.Administration
             string username = (string)Session["korisnickoIme"];
             if (username == null)
             {
-                MessageBox.Show("Logirajte se !");
-                Response.Redirect("~/Account/Login.aspx");
+                //MessageBox.Show("Logirajte se !");
+                ClientScript.RegisterStartupScript(typeof(Page), "myscript", "alert('Logirajte se !');window.location.href = '../Account/Login.aspx'", true);
+                //Response.Redirect("~/Account/Login.aspx");
             }
         }
  
@@ -112,7 +113,8 @@ namespace KMWeb.Administration
                     connection.Open();
                     cmd.ExecuteNonQuery();
                       
-                    MessageBox.Show("Kategorija unesena !", "Important Message");
+                   // MessageBox.Show("Kategorija unesena !", "Important Message");
+                    ClientScript.RegisterStartupScript(typeof(Page), "myscript", "alert('Kategorija unesena !');", true);
 
                     cmd = new SqlCommand("Select Id,NazivKategorije From KategorijeClanaka Where " + // Spremam u SESSION zadnjeg registrovanog korisnika i idem na pocetnu stranicu ili detalje o korisniku
                               "NazivKategorije = @NazivKategorije", connection);
@@ -132,11 +134,19 @@ namespace KMWeb.Administration
                     if (IdKategorije!=0)
                        UpdateKorisniciKategorijeClanaka(IdKategorije);
                 }
-                catch (Exception ex) { MessageBox.Show("Kategorija nije unesena !", "Important Message"); }
+                catch (Exception ex) { 
+                  // MessageBox.Show("Kategorija nije unesena !", "Important Message");
+                    ClientScript.RegisterStartupScript(typeof(Page), "myscript", "alert('Kategorija nije unesena !');", true);
+
+                }
                }
-               else { MessageBox.Show("Kategorija vec postoji !", "Important Message"); clear(); }
+               else { 
+                   //MessageBox.Show("Kategorija vec postoji !", "Important Message"); clear();
+               ClientScript.RegisterStartupScript(typeof(Page), "myscript", "alert('Kategorija vec postoji !');", true);
+               }
             }
-            else MessageBox.Show("Popuniti polja", "Important Message"); 
+            else ClientScript.RegisterStartupScript(typeof(Page), "myscript", "alert('Popuniti polja!');", true);
+                //MessageBox.Show("Popuniti polja", "Important Message"); 
             clear();
         }
     }
