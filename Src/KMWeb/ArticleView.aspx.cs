@@ -20,7 +20,7 @@ namespace KMWeb
        
         protected void Page_Load(object sender, EventArgs e)
         {
-           
+            string username = (string)Session["korisnickoIme"];
             string Article = Request.QueryString["ArticleId"];
             string _brPregleda = "0" ;
             if (!IsPostBack)
@@ -48,7 +48,13 @@ namespace KMWeb
                         _brPregleda = "0";
 
                     reader.Close();
-                    connection.Close(); updatePregledi(_brPregleda);
+                    connection.Close();
+                    updatePregledi(_brPregleda); //Azurira broj pregleda pojedinog clanka
+
+                    if (username != null) // samo za logirane korisnike
+                    {
+                        updatePreglediKorisnika();
+                    }
                 }
 
                 BindData(Convert.ToInt32(Article));
@@ -59,7 +65,7 @@ namespace KMWeb
 
         }
 
-        protected void updatePregledi(string BrojPregleda)
+        protected void updatePregledi(string BrojPregleda)  //Azurira broj pregleda pojedinog clanka
         {
             string _brojPregleda = BrojPregleda;
             string Article = Request.QueryString["ArticleId"];
@@ -69,12 +75,78 @@ namespace KMWeb
             try
             {
                 SqlCommand cmd = new SqlCommand("UPDATE Clanci SET Clanci.Pregleda=" + i + " WHERE Clanci.Id=" + Article, connection);
-
                 cmd.ExecuteNonQuery();
             }
             catch (Exception ex) { }
             finally { connection.Close(); }
         }
+
+        //Azurira broj pregleda pojedinog clanka za korisnika: 
+        //koliko je puta korisnik pregledao neki clanak, i koji je zadnji datum              
+        protected void updatePreglediKorisnika() {
+            
+            string _userId = Session["UserId"].ToString();
+            string _articleId = Request.QueryString["ArticleId"];
+            DateTime _date = DateTime.Today;
+            string _brojPregleda = "";
+            int broj;
+ 
+            if (_userId!="") // samo za logirane korisnike
+            {
+                // _brojPregleda=...;
+                connection.Open();
+                try
+                {
+                    SqlCommand cmd2 = new SqlCommand("SELECT BrojPregleda"
+                                     + " FROM KorisniciIstorijaPregleda WHERE IdKorisnik=" + _userId +
+                                                                " AND IdClanak= " + _articleId, connection);
+                    SqlDataAdapter da = new SqlDataAdapter(cmd2);
+                    SqlDataReader reader = cmd2.ExecuteReader();
+                    if (reader.Read())
+                    {
+                        _brojPregleda = reader["BrojPregleda"].ToString();
+                    }
+                }
+                catch (Exception ex) { }
+                finally { connection.Close(); }
+               
+                connection.Open();
+                if (_brojPregleda == "") //Prvi put radim insert
+                {
+                    _brojPregleda = "1";
+                    try
+                    {
+                        SqlCommand cmd1 = new SqlCommand("INSERT INTO KorisniciIstorijaPregleda (IdKorisnik, IdClanak, BrojPregleda, DatumZadnjegPregleda)" +
+                                                        " VALUES ("+_userId + "," + _articleId + "," + _brojPregleda + ",@DatumKreiranja)", connection);
+                        cmd1.Parameters.AddWithValue("@DatumKreiranja", DateTime.Now);
+                        cmd1.ExecuteNonQuery();
+                    }
+                    catch (Exception ex) { }
+                    finally { connection.Close(); }
+                }
+                else // update ako je broj pregelda > 0
+                {
+                    broj = Convert.ToInt32(_brojPregleda);
+                    broj++;
+                    try
+                    {
+                        SqlCommand cmd = new SqlCommand("UPDATE KorisniciIstorijaPregleda " + 
+                                                        "SET BrojPregleda= " + broj +
+                                                        ",DatumZadnjegPregleda = @DatumKreiranja" +
+                                                        " WHERE IdKorisnik = " + _userId +
+                                                        " AND IdClanak= " +_articleId, connection);
+                        cmd.Parameters.AddWithValue("@DatumKreiranja", DateTime.Now);
+                        cmd.ExecuteNonQuery();
+                    }
+                    catch (Exception ex) { }
+                    finally { connection.Close(); }              
+                }
+            }
+
+            
+            
+        }
+
 
         private void prikaziKljucneRijeci()
         { 

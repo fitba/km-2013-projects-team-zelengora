@@ -73,7 +73,32 @@
                 </asp:GridView>
 
                 <br />
+
+                <asp:Label ID="Label3" runat="server" Text="Vasi zadnje pregledani clanci: "></asp:Label>
+
                 <br />
+                <asp:GridView ID="gvZadnjiPregledi" runat="server" AutoGenerateSelectButton="True" 
+                    DataKeyNames = "IdClanak" AutoGenerateColumns="False" onselectedindexchanged="gvZadnjiPregledi_SelectedIndexChanged">
+                     <Columns>
+                        <asp:BoundField DataField="IdKorisnik" HeaderText="Id" Visible="true"/>
+                        <asp:BoundField DataField="IdClanak" HeaderText="IdClanak" Visible="true"/>
+                        <asp:BoundField DataField="Naslov" HeaderText="Naslov" />     
+                      </Columns>
+                </asp:GridView>
+                <br />
+                <br />
+                <asp:Label ID="Label5" runat="server" Text="Popularno"></asp:Label>
+                <br />
+                <br />
+                <asp:GridView ID="gvPopularno" runat="server" AutoGenerateSelectButton="True" 
+                    DataKeyNames = "IdClanak" AutoGenerateColumns="False" 
+                    onselectedindexchanged="gvPopularno_SelectedIndexChanged">
+                     <Columns>
+                        <asp:BoundField DataField="IdKategorija" HeaderText="Id" Visible="true"/>
+                        <asp:BoundField DataField="IdClanak" HeaderText="IdClanak" Visible="true"/>
+                        <asp:BoundField DataField="Naslov" HeaderText="Naslov" />     
+                      </Columns>
+                </asp:GridView>
                </div>
             
            </div>

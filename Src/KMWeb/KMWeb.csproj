@@ -100,6 +100,7 @@
     <Content Include="App_Data\KMDatabase_log.ldf">
       <DependentUpon>KMDatabase.mdf</DependentUpon>
     </Content>
+    <Content Include="ArticleStatistic.aspx" />
     <Content Include="ArticleView.aspx" />
     <Content Include="CategoryView.aspx" />
     <Content Include="images.jpg" />
@@ -204,6 +205,13 @@
     </Compile>
     <Compile Include="Administration\NewRevision.aspx.designer.cs">
       <DependentUpon>NewRevision.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="ArticleStatistic.aspx.cs">
+      <DependentUpon>ArticleStatistic.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="ArticleStatistic.aspx.designer.cs">
+      <DependentUpon>ArticleStatistic.aspx</DependentUpon>
     </Compile>
     <Compile Include="ArticleView.aspx.cs">
       <DependentUpon>ArticleView.aspx</DependentUpon>
