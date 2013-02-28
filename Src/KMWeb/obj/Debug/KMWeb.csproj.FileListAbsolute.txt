@@ -45,3 +45,4 @@ E:\GitHub\km-2013-projects-team-zelengora\Src\KMWeb\bin\StructureMap.SolrNetInte
 E:\GitHub\km-2013-projects-team-zelengora\Src\KMWeb\bin\StructureMap.SolrNetIntegration.xml
 E:\GitHub\km-2013-projects-team-zelengora\Src\KMWeb\bin\Unity.SolrNetIntegration.pdb
 E:\GitHub\km-2013-projects-team-zelengora\Src\KMWeb\bin\Unity.SolrNetIntegration.xml
+E:\GitHub\km-2013-projects-team-zelengora\Src\KMWeb\bin\CKEditor.NET.pdb
