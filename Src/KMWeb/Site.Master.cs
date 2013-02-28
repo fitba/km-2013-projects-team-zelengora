@@ -133,7 +133,5 @@ namespace KMWeb
             int ArticleId = (int)gvPopularno.DataKeys[gvPopularno.SelectedIndex].Value;
             Response.Redirect("~/ArticleView.aspx?ArticleId=" + ArticleId);
         }
-
-       
     }
 }

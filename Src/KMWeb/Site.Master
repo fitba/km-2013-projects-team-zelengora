@@ -28,15 +28,18 @@
                     ID="linkLogOut" runat="server" onclick="linkLogOut_Click" Visible="False">LogOut</asp:LinkButton>
                 <br />
                         <asp:Label ID="lblUserIme" runat="server" Text="-"></asp:Label>
-                        <asp:Label ID="lblUserPrezime" runat="server" Text="-"></asp:Label>      
+                        <asp:Label ID="lblUserPrezime" runat="server" Text="-"></asp:Label>
+                        
+                  
+                    
+                   
+               
             </div>
             <div class="clear hideSkiplink">
                 <asp:Menu ID="NavigationMenu" runat="server" CssClass="menu" EnableViewState="false" IncludeStyleBlock="false" Orientation="Horizontal">
                     <Items>
                         <asp:MenuItem NavigateUrl="~/Default.aspx" Text="Home"/>
-                        <asp:MenuItem NavigateUrl="~/QA/QuestionList.aspx" Text="QA pitanja i odgovori">
-                            
-                        </asp:MenuItem>
+                        
                     </Items>
                 </asp:Menu>
             </div>
