@@ -7,12 +7,13 @@
 </p>
 <p>
     <asp:Label ID="Label2" runat="server" Text="Naslov:"></asp:Label>
-    <asp:TextBox ID="txtNaslov" runat="server" MaxLength="50" Width="395px"></asp:TextBox>
+    <asp:TextBox ID="txtNaslov" runat="server" MaxLength="300" Width="598px"></asp:TextBox>
 </p>
 <p>
     <asp:Label ID="Label3" runat="server" Text="Sadržaj:"></asp:Label>
-    <asp:TextBox ID="txtSadrzaj" runat="server" Height="180px" MaxLength="5000" 
-        TextMode="MultiLine" Width="395px"></asp:TextBox>
+    <asp:TextBox ID="txtSadrzajOld" runat="server" Height="180px" MaxLength="5000" 
+        TextMode="MultiLine" Width="395px" Visible="false"></asp:TextBox>
+        <CKEditor:CKEditorControl ID="txtSadrzaj" runat="server"></CKEditor:CKEditorControl>
 </p>
 <p>
     <asp:Label ID="Label4" runat="server" Text="Kategorija:"></asp:Label>

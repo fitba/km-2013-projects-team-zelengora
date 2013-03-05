@@ -49,13 +49,22 @@ namespace KMWeb.Administration {
         protected global::System.Web.UI.WebControls.Label Label3;
         
         /// <summary>
+        /// txtSadrzajOld control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.TextBox txtSadrzajOld;
+        
+        /// <summary>
         /// txtSadrzaj control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.TextBox txtSadrzaj;
+        protected global::CKEditor.NET.CKEditorControl txtSadrzaj;
         
         /// <summary>
         /// Label4 control.

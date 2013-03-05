@@ -16,6 +16,10 @@ namespace KMWeb.Administration
     {
         static string connStr = ConfigurationManager.ConnectionStrings["ApplicationServices"].ConnectionString;
         SqlConnection connection = new SqlConnection(connStr);
+        List<Clanak> Sadrzaj = new List<Clanak>();
+        Clanak clanak = new Clanak();
+        List<Clanak> SadrzajPrijedlog = new List<Clanak>();
+        Clanak clanakPrijedlog = new Clanak();
         protected void Page_Load(object sender, EventArgs e)
         {
             LoadOriginal();
@@ -37,6 +41,11 @@ namespace KMWeb.Administration
             {
                 txtNaslov.Text = reader["Naslov"].ToString();
                 txtOriginialSadrzaj.Text = reader["Sadrzaj"].ToString();
+                clanak.Naslov = reader["Naslov"].ToString();
+                clanak.Sadrzaj = reader["Sadrzaj"].ToString();
+                Sadrzaj.Add(clanak);
+                Repeater1.DataSource = Sadrzaj;
+                Repeater1.DataBind();
                 reader.Close();
                 connection.Close();
             }
@@ -65,6 +74,11 @@ namespace KMWeb.Administration
             {
                 txtPrijedlogNaslova.Text = reader["Naslov"].ToString();
                 txtPrijedlogSadrzaja.Text = reader["Sadrzaj"].ToString();
+                clanakPrijedlog.Naslov = reader["Naslov"].ToString();
+                clanakPrijedlog.Sadrzaj = reader["Sadrzaj"].ToString();
+                SadrzajPrijedlog.Add(clanakPrijedlog);
+                Repeater2.DataSource = SadrzajPrijedlog;
+                Repeater2.DataBind();
                 reader.Close();
                 connection.Close();
             }
@@ -74,7 +88,7 @@ namespace KMWeb.Administration
         }
 
 
-        private void prihvatiSveIzmjene()
+        private void prihvatiSveIzmjene(string prijedlogNaslova, string prijedlogSadrzaja)
         { 
             string Article = Request.QueryString["ArticleId"];
             string Proposal = Request.QueryString["IdProposal"];
@@ -89,8 +103,8 @@ namespace KMWeb.Administration
             //SqlDataAdapter da = new SqlDataAdapter(cmd);
             cmd.CommandType = CommandType.Text;
             cmd.Connection = connection;
-            cmd.Parameters.AddWithValue("@Naslov", txtPrijedlogNaslova.Text);
-            cmd.Parameters.AddWithValue("@Sadrzaj", txtPrijedlogSadrzaja.Text );
+            cmd.Parameters.AddWithValue("@Naslov", prijedlogNaslova);
+            cmd.Parameters.AddWithValue("@Sadrzaj", prijedlogSadrzaja);
             cmd.ExecuteNonQuery();
             //MessageBox.Show("Izmjena naslova i sadrzaja uspjela!", "Important Message");
             ClientScript.RegisterStartupScript(typeof(Page), "myscript", "alert('Izmjena naslova i sadrzaja uspjela!');", true);
@@ -134,7 +148,7 @@ namespace KMWeb.Administration
 
         protected void btnPrihvatiSve_Click(object sender, EventArgs e)
         {
-            prihvatiSveIzmjene();
+           // prihvatiSveIzmjene();
         }
 
         protected void btnOdbijSve_Click(object sender, EventArgs e)
@@ -142,7 +156,7 @@ namespace KMWeb.Administration
             setStatusRevizije(3);
         }
 
-        protected void prihvatiNaslov()
+        protected void prihvatiNaslov(string Naslov)
         {
             string Article = Request.QueryString["ArticleId"];
             string Proposal = Request.QueryString["IdProposal"];
@@ -156,7 +170,7 @@ namespace KMWeb.Administration
                 //SqlDataAdapter da = new SqlDataAdapter(cmd);
                 cmd.CommandType = CommandType.Text;
                 cmd.Connection = connection;
-                cmd.Parameters.AddWithValue("@Naslov", txtPrijedlogNaslova.Text);
+                cmd.Parameters.AddWithValue("@Naslov", Naslov);
                 cmd.ExecuteNonQuery();
                 //MessageBox.Show("Izmjena naslova uspjela!", "Important Message");
                 ClientScript.RegisterStartupScript(typeof(Page), "myscript", "alert('Izmjena naslova uspjela!');", true);
@@ -170,7 +184,7 @@ namespace KMWeb.Administration
             
         }
 
-        protected void prihvatiSadrzaj()
+        protected void prihvatiSadrzaj(string Sadrzaj)
         {
             string Article = Request.QueryString["ArticleId"];
             string Proposal = Request.QueryString["IdProposal"];
@@ -184,7 +198,7 @@ namespace KMWeb.Administration
                 //SqlDataAdapter da = new SqlDataAdapter(cmd);
                 cmd.CommandType = CommandType.Text;
                 cmd.Connection = connection;
-                cmd.Parameters.AddWithValue("@Sadrzaj", txtPrijedlogSadrzaja.Text);
+                cmd.Parameters.AddWithValue("@Sadrzaj", Sadrzaj);
                 cmd.ExecuteNonQuery();
                 //MessageBox.Show("Izmjena sadrzaja uspjela!", "Important Message");
                 ClientScript.RegisterStartupScript(typeof(Page), "myscript", "alert('Izmjena sadrzaja uspjela!');", true);
@@ -201,14 +215,40 @@ namespace KMWeb.Administration
 
         protected void btnPrihvatiNaslov_Click(object sender, EventArgs e)
         {
-            prihvatiNaslov();
+            //prihvatiNaslov();
             
         }
 
         protected void btnPrihvatiSadrzaj_Click(object sender, EventArgs e)
         {
-            prihvatiSadrzaj();
+           // prihvatiSadrzaj();
             
+        }
+
+        protected void RepeaterPrijedlog_ItemCommand(object source, RepeaterCommandEventArgs e)
+        {
+            string isactivestatus = Convert.ToString(e.CommandArgument);
+
+            string[] arg = new string[2];
+            arg[0] = isactivestatus.Substring(0,isactivestatus.IndexOf(";"));
+
+            arg[1] = isactivestatus.Substring(isactivestatus.IndexOf(";")+1);
+
+            string Naslov = arg[0];
+            string Sadrzaj = arg[1];
+
+            switch (e.CommandName)
+            {
+                case "btnPrihvatiSve1": prihvatiSveIzmjene(Naslov, Sadrzaj);// insertAnswerVoteUP(IdOdgovor, UkupnoOcjena);
+                    break;
+                case "btnOdbijsve": setStatusRevizije(3);
+                    break;
+                case "btnPrihvatiSadrzaj": prihvatiSadrzaj(Sadrzaj);
+                    break;
+                case "btnPrihvatiNaslov": prihvatiNaslov(Naslov);
+                    break;
+                    
+            }
         }
     }
 }

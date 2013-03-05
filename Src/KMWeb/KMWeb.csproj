@@ -585,6 +585,7 @@
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
+    <Compile Include="Helpers\Clanak.cs" />
     <Compile Include="Helpers\QAAnswers.cs" />
     <Compile Include="Helpers\QAKeyword.cs" />
     <Compile Include="Helpers\QAQuestions.cs" />

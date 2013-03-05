@@ -16,6 +16,8 @@ namespace KMWeb.Administration
     {
         static string connStr = ConfigurationManager.ConnectionStrings["ApplicationServices"].ConnectionString;
         SqlConnection connection = new SqlConnection(connStr);
+        List<Clanak> Sadrzaj = new List<Clanak>();
+        Clanak clanak = new Clanak();
         protected void Page_Load(object sender, EventArgs e)
         {
             
@@ -36,6 +38,12 @@ namespace KMWeb.Administration
             {
                 txtNaslov.Text = reader["Naslov"].ToString();
                 txtOriginialSadrzaj.Text = reader["Sadrzaj"].ToString();
+
+                clanak.Sadrzaj = reader["Sadrzaj"].ToString();
+                clanak.Naslov = reader["Naslov"].ToString();
+                Sadrzaj.Add(clanak);
+                Repeater1.DataSource = Sadrzaj;
+                Repeater1.DataBind();
                 reader.Close();
                 connection.Close();
             }

@@ -19,6 +19,8 @@ using System.Net;
 using SolrNet.Impl;
 using System.IO;
 using SolrNet.Commands.Parameters;
+using System.Text.RegularExpressions;
+using SolrNet.Utils;
 
 namespace KMWeb
 {
@@ -97,6 +99,15 @@ namespace KMWeb
             catch (Exception ex) { }
         }
 
+        public static string StripHtml(string html, bool allowHarmlessTags)
+        {
+            if (html == null || html == string.Empty)
+                return string.Empty;
+            if (allowHarmlessTags)
+                return System.Text.RegularExpressions.Regex.Replace(html, "", string.Empty);
+            return System.Text.RegularExpressions.Regex.Replace(html, "<[^>]*>", string.Empty);
+        }
+
         public void Query(string WordToSearch)
         {
             string _wordSearchWord = WordToSearch;
@@ -125,7 +136,10 @@ namespace KMWeb
                         MaxAnalyzedChars = 10000,
                     }
                 });
-
+                 //Rep.DataSource=article;
+                 //Rep.DataBind();
+                 
+                
                 if (article.Count == 0)
                 {
                     lblNotFound.Visible = true;
@@ -154,22 +168,26 @@ namespace KMWeb
                         _articleText = article[i].articleText.ToString();
                         // OVAKO  CE biti boldirane u rezultatima pretrage tražene rijeci, ali sadrzaj nece biti prikazan u rezultatima 
                         // pretrage ako je pojam pronadjen u pitanjima ili odgovorima 
-                        foreach (var h in article.Highlights[article[i].articleId.ToString()])
+                       /* foreach (var h in article.Highlights[article[i].articleId.ToString()])
                         {
                             TableRow tr1 = new TableRow();
                             TableCell td1;
+                          
                             td1 = new TableCell { Text = "[Sadrzaj] " + string.Join(",", h.Value.ToArray()) };
                             tr1.Cells.Add(td1);
                             t.Rows.Add(tr1);
                         }
-
-                        // Ovako nista nece biti boldirano, ali ce uvijek biti prikazan sadrzaj, odgovor i ptanje u rezultatima pretrage
-                       /* TableRow tr1 = new TableRow();
-                        TableCell td1;
-                        td1 = new TableCell { Text = "[Sadrzaj] " + _articleText};
-                        tr1.Cells.Add(td1);
-                        t.Rows.Add(tr1);
                         */
+
+                       // Ovako nista nece biti boldirano, ali ce uvijek biti prikazan sadrzaj, odgovor i ptanje u rezultatima pretrage
+                         TableRow tr1 = new TableRow();
+                         TableCell td1;
+                        Object c = new Object();
+                         string s = Regex.Replace(_articleText.ToString(), "<(.|\n)*?>", String.Empty);
+                         td1 = new TableCell { Text = "[Sadrzaj] " + s};
+                         tr1.Cells.Add(td1);
+                         t.Rows.Add(tr1);
+                         
 
                         if (article[i].question != null)
                         {
@@ -214,6 +232,8 @@ namespace KMWeb
                     }
                     this.MyPanel.Controls.Add(t);
                 }
+
+              
 
                 //  var q = new SolrQueryInList("articletext", "nedim", "clanak", "unikat"); //name:solr OR name:samsung OR name:maxtor"
                 //article = solr.Query(q); 

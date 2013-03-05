@@ -23,6 +23,9 @@ namespace KMWeb
             string username = (string)Session["korisnickoIme"];
             string Article = Request.QueryString["ArticleId"];
             string _brPregleda = "0" ;
+            List<Clanak> Sadrzaj = new List<Clanak>();
+            Clanak clanak = new Clanak();
+
             if (!IsPostBack)
             {
                 DataSet ds = new DataSet();
@@ -30,15 +33,24 @@ namespace KMWeb
                 SqlCommand cmd = new SqlCommand("SELECT Clanci.Id As Id, Clanci.Naslov AS Naslov, Clanci.Sadrzaj AS Sadrzaj, Clanci.Pregleda AS Pregleda, Clanci.DatumKreiranja AS DatumKreiranja, Korisnici.Id AS IdKorisnik, Korisnici.Ime, Korisnici.Prezime, Korisnici.KorisnickoIme"
                              + " FROM Clanci INNER JOIN Korisnici ON Clanci.IdKorisnik = Korisnici.Id WHERE Clanci.Id=" + Article, connection);
                 SqlDataAdapter da = new SqlDataAdapter(cmd);
-
+                da.Fill(ds);
                 refreshVotingData();
 
 
                 SqlDataReader reader = cmd.ExecuteReader();
                 if (reader.Read())
                 {
-                    txtNaslov.Text = reader["Naslov"].ToString();
-                    txtSadrzaj.Text = reader["Sadrzaj"].ToString();
+                   // txtNaslov.Text = reader["Naslov"].ToString();
+                    txtNaslov.Visible = false;
+                   // txtSadrzaj.Text = reader["Sadrzaj"].ToString();
+                    txtSadrzaj.Visible = false;
+                    clanak.Sadrzaj = reader["Sadrzaj"].ToString();
+                    clanak.Naslov = reader["Naslov"].ToString();
+                    Sadrzaj.Add(clanak);
+                    Repeater1.DataSource = Sadrzaj;
+                    Repeater1.DataBind();
+                    //Literal1.Text = reader["Sadrzaj"].ToString();
+                    //div1.InnerHtml = reader["Sadrzaj"].ToString(); 
                     txtDate.Text = reader["DatumKreiranja"].ToString();
                     lblAutor.Text = reader["Ime"].ToString() + " " + reader["Prezime"].ToString() + " -";
                     string d = reader["Pregleda"].ToString();
