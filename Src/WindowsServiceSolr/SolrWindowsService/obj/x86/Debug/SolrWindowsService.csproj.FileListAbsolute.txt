@@ -1,0 +1,30 @@
+C:\Documents and Settings\npopovac\Desktop\WindowsServiceSolr\SolrWindowsService\bin\Debug\SolrWindowsService.exe.config
+C:\Documents and Settings\npopovac\Desktop\WindowsServiceSolr\SolrWindowsService\bin\Debug\SolrWindowsService.exe
+C:\Documents and Settings\npopovac\Desktop\WindowsServiceSolr\SolrWindowsService\bin\Debug\SolrWindowsService.pdb
+C:\Documents and Settings\npopovac\Desktop\WindowsServiceSolr\SolrWindowsService\obj\x86\Debug\ResolveAssemblyReference.cache
+C:\Documents and Settings\npopovac\Desktop\WindowsServiceSolr\SolrWindowsService\obj\x86\Debug\SolrWindowsService.ProjectInstaller.resources
+C:\Documents and Settings\npopovac\Desktop\WindowsServiceSolr\SolrWindowsService\obj\x86\Debug\SolrWindowsService.Service1.resources
+C:\Documents and Settings\npopovac\Desktop\WindowsServiceSolr\SolrWindowsService\obj\x86\Debug\GenerateResource.read.1.tlog
+C:\Documents and Settings\npopovac\Desktop\WindowsServiceSolr\SolrWindowsService\obj\x86\Debug\GenerateResource.write.1.tlog
+C:\Documents and Settings\npopovac\Desktop\WindowsServiceSolr\SolrWindowsService\obj\x86\Debug\SolrWindowsService.exe
+C:\Documents and Settings\npopovac\Desktop\WindowsServiceSolr\SolrWindowsService\obj\x86\Debug\SolrWindowsService.pdb
+C:\Users\Mobile\Desktop\WindowsServiceSolr\SolrWindowsService\bin\Debug\SolrWindowsService.exe.config
+C:\Users\Mobile\Desktop\WindowsServiceSolr\SolrWindowsService\obj\x86\Debug\SolrWindowsService.exe
+C:\Users\Mobile\Desktop\WindowsServiceSolr\SolrWindowsService\obj\x86\Debug\SolrWindowsService.pdb
+C:\Users\Mobile\Desktop\WindowsServiceSolr\SolrWindowsService\bin\Debug\SolrWindowsService.exe
+C:\Users\Mobile\Desktop\WindowsServiceSolr\SolrWindowsService\bin\Debug\SolrWindowsService.pdb
+C:\Users\Mobile\Desktop\WindowsServiceSolr\SolrWindowsService\obj\x86\Debug\ResolveAssemblyReference.cache
+C:\Users\Mobile\Desktop\WindowsServiceSolr\SolrWindowsService\obj\x86\Debug\SolrWindowsService.ProjectInstaller.resources
+C:\Users\Mobile\Desktop\WindowsServiceSolr\SolrWindowsService\obj\x86\Debug\SolrWindowsService.Service1.resources
+C:\Users\Mobile\Desktop\WindowsServiceSolr\SolrWindowsService\obj\x86\Debug\GenerateResource.read.1.tlog
+C:\Users\Mobile\Desktop\WindowsServiceSolr\SolrWindowsService\obj\x86\Debug\GenerateResource.write.1.tlog
+E:\GitHub\km-2013-projects-team-zelengora\Src\WindowsServiceSolr\SolrWindowsService\bin\Debug\SolrWindowsService.exe.config
+E:\GitHub\km-2013-projects-team-zelengora\Src\WindowsServiceSolr\SolrWindowsService\obj\x86\Debug\SolrWindowsService.exe
+E:\GitHub\km-2013-projects-team-zelengora\Src\WindowsServiceSolr\SolrWindowsService\obj\x86\Debug\SolrWindowsService.pdb
+E:\GitHub\km-2013-projects-team-zelengora\Src\WindowsServiceSolr\SolrWindowsService\bin\Debug\SolrWindowsService.exe
+E:\GitHub\km-2013-projects-team-zelengora\Src\WindowsServiceSolr\SolrWindowsService\bin\Debug\SolrWindowsService.pdb
+E:\GitHub\km-2013-projects-team-zelengora\Src\WindowsServiceSolr\SolrWindowsService\obj\x86\Debug\ResolveAssemblyReference.cache
+E:\GitHub\km-2013-projects-team-zelengora\Src\WindowsServiceSolr\SolrWindowsService\obj\x86\Debug\SolrWindowsService.ProjectInstaller.resources
+E:\GitHub\km-2013-projects-team-zelengora\Src\WindowsServiceSolr\SolrWindowsService\obj\x86\Debug\SolrWindowsService.Service1.resources
+E:\GitHub\km-2013-projects-team-zelengora\Src\WindowsServiceSolr\SolrWindowsService\obj\x86\Debug\GenerateResource.read.1.tlog
+E:\GitHub\km-2013-projects-team-zelengora\Src\WindowsServiceSolr\SolrWindowsService\obj\x86\Debug\GenerateResource.write.1.tlog

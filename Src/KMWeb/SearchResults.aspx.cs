@@ -126,8 +126,9 @@ namespace KMWeb
             if (_wordSearchWord != "")
             {
                 var solr = ServiceLocator.Current.GetInstance<ISolrOperations<Article>>();
-
-                var article = solr.Query(new SolrQuery("articletext:" + _wordSearchWord + "~=1" + " articletitle:" + _wordSearchWord + "~=1" + " question:" + _wordSearchWord + "~=1" + " answer:" + _wordSearchWord+ "~=1")
+              //  _wordSearchWord = Regex.Replace(_wordSearchWord, @"\(", "");
+                _wordSearchWord = _wordSearchWord.Trim(new Char[] { '(', ')' });
+                var article = solr.Query(new SolrQuery("articletext:" + _wordSearchWord + "~=1" + " articletitle:" + _wordSearchWord + "~=1" + " question:" + _wordSearchWord + "~=1" + " answer:" + _wordSearchWord + "~=1" + " category:" + _wordSearchWord + "~=1")
                 , new QueryOptions
                 {
                     Highlight = new HighlightingParameters
@@ -182,8 +183,12 @@ namespace KMWeb
                        // Ovako nista nece biti boldirano, ali ce uvijek biti prikazan sadrzaj, odgovor i ptanje u rezultatima pretrage
                          TableRow tr1 = new TableRow();
                          TableCell td1;
-                        Object c = new Object();
-                         string s = Regex.Replace(_articleText.ToString(), "<(.|\n)*?>", String.Empty);
+                         Object c = new Object();
+                          string s;
+                         s = Regex.Replace(_articleText.ToString(), "<(.|\n)*?>", String.Empty);
+                         _stringLength = s.Length;
+                         if (_stringLength > 200)
+                             s = s.Substring(0, 200);
                          td1 = new TableCell { Text = "[Sadrzaj] " + s};
                          tr1.Cells.Add(td1);
                          t.Rows.Add(tr1);

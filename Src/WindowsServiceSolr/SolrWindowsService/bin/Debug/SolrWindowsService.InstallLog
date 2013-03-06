@@ -1,0 +1,56 @@
+﻿Installing assembly 'C:\Users\Mobile\Desktop\WindowsServiceSolr\SolrWindowsService\bin\Debug\SolrWindowsService.exe'.
+Affected parameters are:
+   logtoconsole = 
+   logfile = C:\Users\Mobile\Desktop\WindowsServiceSolr\SolrWindowsService\bin\Debug\SolrWindowsService.InstallLog
+   assemblypath = C:\Users\Mobile\Desktop\WindowsServiceSolr\SolrWindowsService\bin\Debug\SolrWindowsService.exe
+Installing service Solr_Service...
+Service Solr_Service has been successfully installed.
+Creating EventLog source Solr_Service in log Application...
+Committing assembly 'C:\Users\Mobile\Desktop\WindowsServiceSolr\SolrWindowsService\bin\Debug\SolrWindowsService.exe'.
+Affected parameters are:
+   logtoconsole = 
+   logfile = C:\Users\Mobile\Desktop\WindowsServiceSolr\SolrWindowsService\bin\Debug\SolrWindowsService.InstallLog
+   assemblypath = C:\Users\Mobile\Desktop\WindowsServiceSolr\SolrWindowsService\bin\Debug\SolrWindowsService.exe
+Uninstalling assembly 'C:\Users\Mobile\Desktop\WindowsServiceSolr\SolrWindowsService\bin\Debug\SolrWindowsService.exe'.
+Affected parameters are:
+   logtoconsole = 
+   logfile = C:\Users\Mobile\Desktop\WindowsServiceSolr\SolrWindowsService\bin\Debug\SolrWindowsService.InstallLog
+   assemblypath = C:\Users\Mobile\Desktop\WindowsServiceSolr\SolrWindowsService\bin\Debug\SolrWindowsService.exe
+Removing EventLog source Solr_Service.
+Service Solr_Service is being removed from the system...
+Service Solr_Service was successfully removed from the system.
+Installing assembly 'E:\GitHub\km-2013-projects-team-zelengora\Src\WindowsServiceSolr\SolrWindowsService\bin\Debug\SolrWindowsService.exe'.
+Affected parameters are:
+   logtoconsole = 
+   logfile = E:\GitHub\km-2013-projects-team-zelengora\Src\WindowsServiceSolr\SolrWindowsService\bin\Debug\SolrWindowsService.InstallLog
+   assemblypath = E:\GitHub\km-2013-projects-team-zelengora\Src\WindowsServiceSolr\SolrWindowsService\bin\Debug\SolrWindowsService.exe
+Installing service Solr_Service...
+Service Solr_Service has been successfully installed.
+Creating EventLog source Solr_Service in log Application...
+Committing assembly 'E:\GitHub\km-2013-projects-team-zelengora\Src\WindowsServiceSolr\SolrWindowsService\bin\Debug\SolrWindowsService.exe'.
+Affected parameters are:
+   logtoconsole = 
+   logfile = E:\GitHub\km-2013-projects-team-zelengora\Src\WindowsServiceSolr\SolrWindowsService\bin\Debug\SolrWindowsService.InstallLog
+   assemblypath = E:\GitHub\km-2013-projects-team-zelengora\Src\WindowsServiceSolr\SolrWindowsService\bin\Debug\SolrWindowsService.exe
+Uninstalling assembly 'E:\GitHub\km-2013-projects-team-zelengora\Src\WindowsServiceSolr\SolrWindowsService\bin\Debug\SolrWindowsService.exe'.
+Affected parameters are:
+   logtoconsole = 
+   logfile = E:\GitHub\km-2013-projects-team-zelengora\Src\WindowsServiceSolr\SolrWindowsService\bin\Debug\SolrWindowsService.InstallLog
+   assemblypath = E:\GitHub\km-2013-projects-team-zelengora\Src\WindowsServiceSolr\SolrWindowsService\bin\Debug\SolrWindowsService.exe
+Removing EventLog source Solr_Service.
+Service Solr_Service is being removed from the system...
+Service Solr_Service was successfully removed from the system.
+Attempt to stop service Solr_Service.
+Installing assembly 'E:\GitHub\km-2013-projects-team-zelengora\Src\WindowsServiceSolr\SolrWindowsService\bin\Debug\SolrWindowsService.exe'.
+Affected parameters are:
+   logtoconsole = 
+   logfile = E:\GitHub\km-2013-projects-team-zelengora\Src\WindowsServiceSolr\SolrWindowsService\bin\Debug\SolrWindowsService.InstallLog
+   assemblypath = E:\GitHub\km-2013-projects-team-zelengora\Src\WindowsServiceSolr\SolrWindowsService\bin\Debug\SolrWindowsService.exe
+Installing service Solr_Service...
+Service Solr_Service has been successfully installed.
+Creating EventLog source Solr_Service in log Application...
+Committing assembly 'E:\GitHub\km-2013-projects-team-zelengora\Src\WindowsServiceSolr\SolrWindowsService\bin\Debug\SolrWindowsService.exe'.
+Affected parameters are:
+   logtoconsole = 
+   logfile = E:\GitHub\km-2013-projects-team-zelengora\Src\WindowsServiceSolr\SolrWindowsService\bin\Debug\SolrWindowsService.InstallLog
+   assemblypath = E:\GitHub\km-2013-projects-team-zelengora\Src\WindowsServiceSolr\SolrWindowsService\bin\Debug\SolrWindowsService.exe
