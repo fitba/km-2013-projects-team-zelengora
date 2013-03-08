@@ -50,6 +50,19 @@ namespace KMWeb
 
             [SolrField("date")]
             public DateTime date { get; internal set; }
+
+            [SolrUniqueKey("QAid")]
+            public int QAid { get; internal set; }
+
+            [SolrField("QAquestion")]
+            public string QAquestion { get; internal set; }
+
+            [SolrField("QAquestiontitle")]
+            public string QAquestiontitle { get; internal set; }
+
+            [SolrField("doc_type")]
+            public string doc_type { get; internal set; }
+            
         }
 
         public static void SearchSomething(string wordToSearch)
@@ -119,8 +132,13 @@ namespace KMWeb
             string _url;
             string _category;
             string _date;
+            string _QAPitanje;
+            string _QAPitanjeNaslov;
+            string _QAId;
             int _stringLength=100;
+            int _stringLength1 = 100;
             int _limit=0;
+            string _docType;
             Table t = new Table();
             lblNotFound.Visible = false;
             if (_wordSearchWord != "")
@@ -128,7 +146,7 @@ namespace KMWeb
                 var solr = ServiceLocator.Current.GetInstance<ISolrOperations<Article>>();
               //  _wordSearchWord = Regex.Replace(_wordSearchWord, @"\(", "");
                 _wordSearchWord = _wordSearchWord.Trim(new Char[] { '(', ')' });
-                var article = solr.Query(new SolrQuery("articletext:" + _wordSearchWord + "~=1" + " articletitle:" + _wordSearchWord + "~=1" + " question:" + _wordSearchWord + "~=1" + " answer:" + _wordSearchWord + "~=1" + " category:" + _wordSearchWord + "~=1")
+                var article = solr.Query(new SolrQuery("articletext:" + _wordSearchWord + "~=1" + " articletitle:" + _wordSearchWord + "~=1" + " question:" + _wordSearchWord + "~=1" + " answer:" + _wordSearchWord + "~=1" + " category:" + _wordSearchWord + "~=1" + " QAquestion:" + _wordSearchWord + "~=1")
                 , new QueryOptions
                 {
                     Highlight = new HighlightingParameters
@@ -149,86 +167,120 @@ namespace KMWeb
                 {
                     for (int i = 0; i < article.Count; i++)
                     {
-                        _articleId = article[i].articleId.ToString();
-                        _url = "ArticleView.aspx?ArticleId=" + _articleId;
-                        _articleTitle = article[i].articleTitle.ToString();
-                        TableRow tr = new TableRow();
-                        TableCell td = new TableCell { Text = "<a href='" + _url + "'>" + _articleTitle + "</a>" };
-                        tr.Cells.Add(td);
-                        t.Rows.Add(tr);
-                        
-                       /* foreach (var h in article.Highlights[article[i].articleId.ToString()])
+                        _docType = article[i].doc_type.ToString();
+                        if (_docType == "CLANAK")
                         {
-                            TableRow tr1 = new TableRow();
-                            TableCell td1;
-                            td1 = new TableCell { Text = string.Join(",", h.Value.ToArray()) };
-                            tr1.Cells.Add(td1);
-                            t.Rows.Add(tr1);
-                        }*/
+                            _articleId = article[i].articleId.ToString();
+                            _url = "ArticleView.aspx?ArticleId=" + _articleId;
+                            _articleTitle = article[i].articleTitle.ToString();
+                            TableRow tr = new TableRow();
+                            TableCell td = new TableCell { Text = "<a href='" + _url + "'>" + _articleTitle + "</a>" };
+                            tr.Cells.Add(td);
+                            t.Rows.Add(tr);
 
-                        _articleText = article[i].articleText.ToString();
-                        // OVAKO  CE biti boldirane u rezultatima pretrage tražene rijeci, ali sadrzaj nece biti prikazan u rezultatima 
-                        // pretrage ako je pojam pronadjen u pitanjima ili odgovorima 
-                       /* foreach (var h in article.Highlights[article[i].articleId.ToString()])
-                        {
-                            TableRow tr1 = new TableRow();
-                            TableCell td1;
+                            /* foreach (var h in article.Highlights[article[i].articleId.ToString()])
+                             {
+                                 TableRow tr1 = new TableRow();
+                                 TableCell td1;
+                                 td1 = new TableCell { Text = string.Join(",", h.Value.ToArray()) };
+                                 tr1.Cells.Add(td1);
+                                 t.Rows.Add(tr1);
+                             }*/
+
+                            _articleText = article[i].articleText.ToString();
+                            // OVAKO  CE biti boldirane u rezultatima pretrage tražene rijeci, ali sadrzaj nece biti prikazan u rezultatima 
+                            // pretrage ako je pojam pronadjen u pitanjima ili odgovorima 
+                            /* foreach (var h in article.Highlights[article[i].articleId.ToString()])
+                             {
+                                 TableRow tr1 = new TableRow();
+                                 TableCell td1;
                           
-                            td1 = new TableCell { Text = "[Sadrzaj] " + string.Join(",", h.Value.ToArray()) };
+                                 td1 = new TableCell { Text = "[Sadrzaj] " + string.Join(",", h.Value.ToArray()) };
+                                 tr1.Cells.Add(td1);
+                                 t.Rows.Add(tr1);
+                             }
+                             */
+
+                            // Ovako nista nece biti boldirano, ali ce uvijek biti prikazan sadrzaj, odgovor i ptanje u rezultatima pretrage
+                            TableRow tr1 = new TableRow();
+                            TableCell td1;
+                            Object c = new Object();
+                            string s;
+                            s = Regex.Replace(_articleText.ToString(), "<(.|\n)*?>", String.Empty);
+                            _stringLength = s.Length;
+                            if (_stringLength > 200)
+                                s = s.Substring(0, 200);
+                            td1 = new TableCell { Text = "[Sadrzaj] " + s };
                             tr1.Cells.Add(td1);
                             t.Rows.Add(tr1);
+
+
+                            if (article[i].question != null)
+                            {
+                                _question = article[i].question.ToString();
+                                TableRow tr4 = new TableRow();
+                                TableCell td4;
+                                td4 = new TableCell { Text = "[Pitanje] " + _question };
+                                tr4.Cells.Add(td4);
+                                t.Rows.Add(tr4);
+                            }
+
+                            if (article[i].answer != null)
+                            {
+                                _answer = article[i].answer.ToString();
+                                TableRow tr5 = new TableRow();
+                                TableCell td5;
+                                td5 = new TableCell { Text = "[Odgovor] " + _answer };
+                                tr5.Cells.Add(td5);
+                                t.Rows.Add(tr5);
+                            }
+
+                            _category = article[i].category.ToString();
+                            TableRow tr2 = new TableRow();
+                            TableCell td2 = new TableCell { Text = "Kategorija: " + _category };
+                            tr2.Cells.Add(td2);
+                            t.Rows.Add(tr2);
+
+                            _date = article[i].date.ToShortDateString();
+                            TableRow tr6 = new TableRow();
+                            TableCell td6;
+                            td6 = new TableCell { Text = "[Datum Kreiranja] " + _date + "<br>_________________________________________________________________<br>" };
+                            tr6.Cells.Add(td6);
+                            t.Rows.Add(tr6);
+
+
+                            /*_QAId = article[i].QAid.ToString();
+                            if (_QAId != "")
+                            {
+                                
+                            }*/
+
                         }
-                        */
-
-                       // Ovako nista nece biti boldirano, ali ce uvijek biti prikazan sadrzaj, odgovor i ptanje u rezultatima pretrage
-                         TableRow tr1 = new TableRow();
-                         TableCell td1;
-                         Object c = new Object();
-                          string s;
-                         s = Regex.Replace(_articleText.ToString(), "<(.|\n)*?>", String.Empty);
-                         _stringLength = s.Length;
-                         if (_stringLength > 200)
-                             s = s.Substring(0, 200);
-                         td1 = new TableCell { Text = "[Sadrzaj] " + s};
-                         tr1.Cells.Add(td1);
-                         t.Rows.Add(tr1);
-                         
-
-                        if (article[i].question != null)
+                        if (_docType == "PITANJA") 
                         {
-                            _question = article[i].question.ToString();
-                            TableRow tr4 = new TableRow();
-                            TableCell td4;
-                            td4 = new TableCell { Text = "[Pitanje] " + _question };
-                            tr4.Cells.Add(td4);
-                            t.Rows.Add(tr4);
+                            _QAId = article[i].QAid.ToString();
+                            _url = "QA/QAQuestionShow.aspx?IdQuestion=" + _QAId;
+                            _QAPitanjeNaslov = article[i].QAquestiontitle.ToString();
+                            //_articleTitle = article[i].articleTitle.ToString();
+                            TableRow tr8 = new TableRow();
+                            TableCell td8 = new TableCell { Text = "<a href='" + _url + "'>" + _QAPitanjeNaslov + "</a>" + "  [QA Modul]" };
+                            tr8.Cells.Add(td8);
+                            t.Rows.Add(tr8);
+
+                            _QAPitanje = article[i].QAquestion.ToString();
+                            string s1;
+                            s1 = Regex.Replace(_QAPitanje.ToString(), "<(.|\n)*?>", String.Empty);
+                            _stringLength1 = s1.Length;
+                            if (_stringLength1 > 200)
+                                s1 = s1.Substring(0, 200);
+
+                           
+                            TableRow tr7 = new TableRow();
+                            TableCell td7 = new TableCell { Text = "Pitanje: " + s1 + "<br>_________________________________________________________________<br>"};
+                            tr7.Cells.Add(td7);
+                            t.Rows.Add(tr7);
                         }
-
-                        if (article[i].answer != null)
-                        {
-                            _answer = article[i].answer.ToString();
-                            TableRow tr5 = new TableRow();
-                            TableCell td5;
-                            td5 = new TableCell { Text = "[Odgovor] " + _answer };
-                            tr5.Cells.Add(td5);
-                            t.Rows.Add(tr5);
-                        }
-
-                        _category = article[i].category.ToString();
-                        TableRow tr2 = new TableRow();
-                        TableCell td2 = new TableCell { Text = "Kategorija: " + _category };
-                        tr2.Cells.Add(td2);
-                        t.Rows.Add(tr2);
-
-                        _date = article[i].date.ToShortDateString();
-                        TableRow tr6 = new TableRow();
-                        TableCell td6;
-                        td6 = new TableCell { Text = "[Datum Kreiranja] " + _date + "<br>_________________________________________________________________<br>" };
-                        tr6.Cells.Add(td6);
-                        t.Rows.Add(tr6);
-                        
-
-                    }
+                    }//Kraj Fora
 
                     using (StringWriter sw = new StringWriter())
                     {
