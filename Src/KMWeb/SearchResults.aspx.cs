@@ -26,7 +26,7 @@ namespace KMWeb
 {
     public partial class SearchResults : System.Web.UI.Page
     {
-        internal class Article
+        internal class Article // ustvari ova klasa mapira rezultate pretrage
         {
 
             [SolrUniqueKey("articleid")]
@@ -62,6 +62,15 @@ namespace KMWeb
 
             [SolrField("doc_type")]
             public string doc_type { get; internal set; }
+
+            [SolrField("QAanswer")]
+            public string QAanswer { get; internal set; }
+
+            [SolrField("QAAnswerIdPitanje")]
+            public string QAAnswerIdPitanje { get; internal set; }
+
+            [SolrField("QANaslovPitanja")]
+            public string QANaslovPitanja { get; internal set; }
             
         }
 
@@ -135,6 +144,10 @@ namespace KMWeb
             string _QAPitanje;
             string _QAPitanjeNaslov;
             string _QAId;
+            string _QAOdgovor;           
+            string _QAIdAnswer;
+            string _QAAnswerIdPitanje;
+            string _QANaslovPitanja;
             int _stringLength=100;
             int _stringLength1 = 100;
             int _limit=0;
@@ -145,8 +158,10 @@ namespace KMWeb
             {
                 var solr = ServiceLocator.Current.GetInstance<ISolrOperations<Article>>();
               //  _wordSearchWord = Regex.Replace(_wordSearchWord, @"\(", "");
-                _wordSearchWord = _wordSearchWord.Trim(new Char[] { '(', ')' });
-                var article = solr.Query(new SolrQuery("articletext:" + _wordSearchWord + "~=1" + " articletitle:" + _wordSearchWord + "~=1" + " question:" + _wordSearchWord + "~=1" + " answer:" + _wordSearchWord + "~=1" + " category:" + _wordSearchWord + "~=1" + " QAquestion:" + _wordSearchWord + "~=1")
+                _wordSearchWord = _wordSearchWord.Trim(new Char[] { '(', ')', '/' });
+                var article = solr.Query(new SolrQuery("articletext:" + _wordSearchWord + "~=1" + " articletitle:" + _wordSearchWord + "~=1" + " question:" 
+                    + _wordSearchWord + "~=1" + " answer:" + _wordSearchWord + "~=1" + " category:" + _wordSearchWord + "~=1"
+                    + " QAquestion:" + _wordSearchWord + "~=1" + " QAquestiontitle:" + _wordSearchWord + "~=1" + " QAanswer:" + _wordSearchWord + "~=1")
                 , new QueryOptions
                 {
                     Highlight = new HighlightingParameters
@@ -279,6 +294,31 @@ namespace KMWeb
                             TableCell td7 = new TableCell { Text = "Pitanje: " + s1 + "<br>_________________________________________________________________<br>"};
                             tr7.Cells.Add(td7);
                             t.Rows.Add(tr7);
+                        }
+
+                        if (_docType == "ODGOVORI")
+                        {
+                            _QAAnswerIdPitanje = article[i].QAAnswerIdPitanje.ToString();
+                            _url = "QA/QAQuestionShow.aspx?IdQuestion=" + _QAAnswerIdPitanje;
+                            _QANaslovPitanja = article[i].QANaslovPitanja.ToString();
+                            //_articleTitle = article[i].articleTitle.ToString();
+                            TableRow tr9 = new TableRow();
+                            TableCell td9 = new TableCell { Text = "<a href='" + _url + "'>" + _QANaslovPitanja + "</a>" + "  [QA Modul]" };
+                            tr9.Cells.Add(td9);
+                            t.Rows.Add(tr9);
+
+                            _QAOdgovor = article[i].QAanswer.ToString();
+                            string s1;
+                            s1 = Regex.Replace(_QAOdgovor.ToString(), "<(.|\n)*?>", String.Empty);
+                            _stringLength1 = s1.Length;
+                            if (_stringLength1 > 200)
+                                s1 = s1.Substring(0, 200);
+
+
+                            TableRow tr10 = new TableRow();
+                            TableCell td10 = new TableCell { Text = "Odgovor: " + s1 + "<br>_________________________________________________________________<br>" };
+                            tr10.Cells.Add(td10);
+                            t.Rows.Add(tr10);
                         }
                     }//Kraj Fora
 
