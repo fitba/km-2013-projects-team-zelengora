@@ -69,6 +69,7 @@ namespace KMWeb.Administration
 
         protected void btnNovaKategorija_Click(object sender, EventArgs e)
         {
+            int UserId = Convert.ToInt32(Session["UserId"]);
             SqlParameter Kategorija;
             string kat="";
             int IdKategorije=0;
@@ -103,13 +104,14 @@ namespace KMWeb.Administration
             
                 try
                 {
-                    cmd = new SqlCommand("Insert into KategorijeClanaka(NazivKategorije,OpisKategorije,DatumKreiranja) VALUES (@NazivKategorije,@OpisKategorije,@DatumKreiranja)");
+                    cmd = new SqlCommand("Insert into KategorijeClanaka(NazivKategorije,OpisKategorije,DatumKreiranja,IdKorisnik) VALUES (@NazivKategorije,@OpisKategorije,@DatumKreiranja,@IdKorisnik)");
                     cmd.CommandType = CommandType.Text;
                     cmd.Connection = connection;
                     
                     cmd.Parameters.AddWithValue("@NazivKategorije", txtNazivKategorije.Text );
                     cmd.Parameters.AddWithValue("@OpisKategorije", txtOpisKategorije.Text);
-                    cmd.Parameters.AddWithValue("@DatumKreiranja", DateTime.Today);
+                    cmd.Parameters.AddWithValue("@DatumKreiranja", DateTime.Now);
+                    cmd.Parameters.AddWithValue("@IdKorisnik", UserId);
                     connection.Open();
                     cmd.ExecuteNonQuery();
                       

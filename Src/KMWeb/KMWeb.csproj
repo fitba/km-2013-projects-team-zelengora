@@ -93,6 +93,7 @@
     <Content Include="Account\ChangePasswordSuccess.aspx" />
     <Content Include="Account\Login.aspx" />
     <Content Include="Account\Register.aspx" />
+    <Content Include="Administration\CategoryAdministration.aspx" />
     <Content Include="Administration\UserAdministration.aspx" />
     <Content Include="Administration\UserDetails.aspx" />
     <Content Include="Administration\AdministratorHome.aspx" />
@@ -450,6 +451,8 @@
     <Content Include="CKEditor\themes\default\theme.js" />
     <Content Include="images.jpg" />
     <Content Include="QA\NewQuestion.aspx" />
+    <Content Include="QA\NewQuestionRevision.aspx" />
+    <Content Include="QA\QACompareRevision.aspx" />
     <Content Include="QA\QAQuestionShow.aspx" />
     <Content Include="QA\QuestionList.aspx" />
     <Content Include="SearchResults.aspx" />
@@ -504,6 +507,13 @@
     </Compile>
     <Compile Include="Account\Register.aspx.designer.cs">
       <DependentUpon>Register.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Administration\CategoryAdministration.aspx.cs">
+      <DependentUpon>CategoryAdministration.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Administration\CategoryAdministration.aspx.designer.cs">
+      <DependentUpon>CategoryAdministration.aspx</DependentUpon>
     </Compile>
     <Compile Include="Administration\UserAdministration.aspx.cs">
       <DependentUpon>UserAdministration.aspx</DependentUpon>
@@ -596,6 +606,20 @@
     </Compile>
     <Compile Include="QA\NewQuestion.aspx.designer.cs">
       <DependentUpon>NewQuestion.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="QA\NewQuestionRevision.aspx.cs">
+      <DependentUpon>NewQuestionRevision.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="QA\NewQuestionRevision.aspx.designer.cs">
+      <DependentUpon>NewQuestionRevision.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="QA\QACompareRevision.aspx.cs">
+      <DependentUpon>QACompareRevision.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="QA\QACompareRevision.aspx.designer.cs">
+      <DependentUpon>QACompareRevision.aspx</DependentUpon>
     </Compile>
     <Compile Include="QA\QAQuestionShow.aspx.cs">
       <DependentUpon>QAQuestionShow.aspx</DependentUpon>

@@ -394,6 +394,8 @@ namespace KMWeb.QA
                         break;
                     case "Down": insertQuestionVoteDOWN(IdPitanje, UkupnoOcjena);
                         break;
+                    case "Review": Response.Redirect("~/QA/NewQuestionRevision.aspx?IdQuestion= " + IdPitanje);
+                        break;
                 }
             }
             else { ClientScript.RegisterStartupScript(typeof(Page), "myscript", "alert('Logiraj se!');", true); }
@@ -492,6 +494,7 @@ namespace KMWeb.QA
                         break;
                     case "DownAnswer": insertAnswerVoteDOWN(IdOdgovor, UkupnoOcjena);
                         break;
+                     
                 }
             }
             else { ClientScript.RegisterStartupScript(typeof(Page), "myscript", "alert('Logiraj se!');", true); }

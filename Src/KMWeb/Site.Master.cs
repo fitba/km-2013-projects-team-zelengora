@@ -58,8 +58,8 @@ namespace KMWeb
         void loadCategories()
         {
             DataSet ds = new DataSet();
-           
-            SqlCommand cmd = new SqlCommand("Select Id,NazivKategorije from KategorijeClanaka", connection);
+
+            SqlCommand cmd = new SqlCommand("Select Id,NazivKategorije from KategorijeClanaka WHERE KategorijeClanaka.CancelDate IS NULL", connection);
             SqlDataAdapter da = new SqlDataAdapter(cmd);
             
             da.Fill(ds, "Kategorije");
@@ -132,6 +132,11 @@ namespace KMWeb
         {
             int ArticleId = (int)gvPopularno.DataKeys[gvPopularno.SelectedIndex].Value;
             Response.Redirect("~/ArticleView.aspx?ArticleId=" + ArticleId);
+        }
+
+        protected void LinkButton4_Click(object sender, EventArgs e)
+        {
+            Response.Redirect("~/Administration/CategoryAdministration.aspx");
         }
 
        

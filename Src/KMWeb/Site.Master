@@ -54,6 +54,7 @@
                     onclick="LinkButton2_Click">Nova kategorija</asp:LinkButton>
                 <asp:LinkButton ID="LinkButton3" runat="server" onclick="LinkButton3_Click">User Administration</asp:LinkButton>
                 <br />
+                <asp:LinkButton ID="LinkButton4" runat="server" onclick="LinkButton4_Click" >Category Administration</asp:LinkButton>
                 <br />
 &nbsp;<asp:Label ID="Label2" runat="server" Text="Podaci o korisniku: "></asp:Label>
                 <asp:LinkButton ID="btnPodaciOKorisniku" runat="server" 

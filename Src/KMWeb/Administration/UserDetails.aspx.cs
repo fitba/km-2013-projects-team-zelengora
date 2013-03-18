@@ -29,7 +29,7 @@ namespace KMWeb.Account
 
             SqlCommand cmd = new SqlCommand("select KC.Id AS IdKategorijaClanaka, ISNULL(Preferira,'false') AS Preferira, KC.NazivKategorije as NazivKategorije "
                                          + "From KategorijeClanaka AS KC left JOIN KorisniciKategorijeClanaka AS KKC "
-                                         + " ON KC.Id=KKC.IdKategorijaClanaka WHERE IdKorisnik=" + _userId, connection);
+                                         + " ON KC.Id=KKC.IdKategorijaClanaka WHERE KKC.IdKorisnik=" + _userId, connection);
           /*  
             
              

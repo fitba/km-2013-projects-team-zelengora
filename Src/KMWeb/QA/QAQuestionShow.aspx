@@ -49,7 +49,7 @@
          <br />
          
     </div>
-
+          <asp:LinkButton ID="LinkButton1" runat="server" Text="Uredi pitanje" CommandName="Review" CommandArgument='<%# Eval("ID") + ";" +Eval("UkupnaOcjena") %>'  ></asp:LinkButton>
 </div>
 
     <br /><br />
