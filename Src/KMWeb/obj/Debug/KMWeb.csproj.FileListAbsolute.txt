@@ -18,7 +18,6 @@ E:\GitHub\km-2013-projects-team-zelengora\Src\KMWeb\bin\ICSharpCode.SharpZipLib.
 E:\GitHub\km-2013-projects-team-zelengora\Src\KMWeb\bin\Lucene.Net.dll
 E:\GitHub\km-2013-projects-team-zelengora\Src\KMWeb\bin\Lucene.Net.pdb
 E:\GitHub\km-2013-projects-team-zelengora\Src\KMWeb\bin\Lucene.Net.xml
-E:\GitHub\km-2013-projects-team-zelengora\Src\KMWeb\obj\Debug\ResolveAssemblyReference.cache
 E:\GitHub\km-2013-projects-team-zelengora\Src\KMWeb\obj\Debug\KMWeb.dll
 E:\GitHub\km-2013-projects-team-zelengora\Src\KMWeb\obj\Debug\KMWeb.pdb
 E:\GitHub\km-2013-projects-team-zelengora\Src\KMWeb\bin\Microsoft.Practices.ServiceLocation.dll
@@ -46,3 +45,4 @@ E:\GitHub\km-2013-projects-team-zelengora\Src\KMWeb\bin\StructureMap.SolrNetInte
 E:\GitHub\km-2013-projects-team-zelengora\Src\KMWeb\bin\Unity.SolrNetIntegration.pdb
 E:\GitHub\km-2013-projects-team-zelengora\Src\KMWeb\bin\Unity.SolrNetIntegration.xml
 E:\GitHub\km-2013-projects-team-zelengora\Src\KMWeb\bin\CKEditor.NET.pdb
+E:\GitHub\km-2013-projects-team-zelengora\Src\KMWeb\obj\Debug\KMWeb.csprojResolveAssemblyReference.cache

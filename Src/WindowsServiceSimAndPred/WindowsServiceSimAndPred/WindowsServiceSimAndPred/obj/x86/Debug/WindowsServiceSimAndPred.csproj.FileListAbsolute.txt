@@ -1,0 +1,4 @@
+E:\GitHub\km-2013-projects-team-zelengora\Src\WindowsServiceSimAndPred\WindowsServiceSimAndPred\WindowsServiceSimAndPred\bin\Debug\WindowsServiceSimAndPred.exe
+E:\GitHub\km-2013-projects-team-zelengora\Src\WindowsServiceSimAndPred\WindowsServiceSimAndPred\WindowsServiceSimAndPred\bin\Debug\WindowsServiceSimAndPred.pdb
+E:\GitHub\km-2013-projects-team-zelengora\Src\WindowsServiceSimAndPred\WindowsServiceSimAndPred\WindowsServiceSimAndPred\obj\x86\Debug\WindowsServiceSimAndPred.exe
+E:\GitHub\km-2013-projects-team-zelengora\Src\WindowsServiceSimAndPred\WindowsServiceSimAndPred\WindowsServiceSimAndPred\obj\x86\Debug\WindowsServiceSimAndPred.pdb
